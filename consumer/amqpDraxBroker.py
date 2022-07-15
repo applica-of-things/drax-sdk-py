@@ -95,7 +95,7 @@ class AmqpDraxBroker:
     async def addConfigurationListener(self, topic, listeners = []):
         
         # set the exchange, if not set before
-        self.channel.exchange_declare(exchange=topic, exchange_type='topic', durable=True)
+        self.channel.exchange_declare(exchange="amq.topic", exchange_type='topic', durable=True)
         
         # for each listener, set the queue, bind the queue to the exchange 
         # set the callback function, set basic consume and start consuming
@@ -103,8 +103,8 @@ class AmqpDraxBroker:
             
         queue_name = ret.method.queue
             
-        self.channel.queue_bind(exchange=topic, queue=queue_name, 
-            routing_key='node-sdk-development-65447.configurations.hmip')
+        bindingKey = self.projectId + '.' + topic.replace("/", ".")
+        self.channel.queue_bind(exchange='amq.topic', queue=queue_name, routing_key=bindingKey)
         
         for listener in listeners:
                     

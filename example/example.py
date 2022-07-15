@@ -3,9 +3,9 @@ import asyncio
 
 import sys  
 # setting path
-sys.path.append('../drax-sdk-python')
-sys.path.append('../drax-sdk-python/consumer')
-sys.path.append('../drax-sdk-python/consumer/listeners')
+sys.path.append('../drax-sdk-py')
+sys.path.append('../drax-sdk-py/consumer')
+sys.path.append('../drax-sdk-py/consumer/listeners')
 
 import drax
 from backend import draxClient
@@ -46,7 +46,7 @@ state = {'dato': '23', 'battery': '78'}
 
 asyncio.run(drax.setState(3839, 'mqtt:gateway-test:nodo-01-python-test', state, False))
 
-asyncio.run(drax.addConfigurationListener("amq.topic", listeners))
+asyncio.run(drax.addConfigurationListener("configurations/hmip", listeners))
 
 #asyncio.run(drax.stop())
 
