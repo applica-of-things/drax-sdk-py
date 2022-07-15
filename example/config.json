@@ -1,0 +1,15 @@
+{
+    "draxPublicKey": "bb099d6dce1a953c7c5d2380815ee02ea191b39206000000ceefb3c222b480459556ce440379cef89db0ccfc04000000",
+    "project":{
+        "id": "node-sdk-development-65447",
+        "apiKey": "ed2b5e96b99f44588647752cd543c84d",
+        "apiSecret": "0e302e419e30bf5615f05ef2acc89028bae05330b2f136290094513178dcf674"
+    },
+    "keys": [
+        {
+            "nodeId": "3839",
+            "public_key": "db99316293e601b64f0cc42a69fa114ae6f772c201000000e23296ec17cc978798eaa8ccc99e85da30be50e102000000",
+            "privateKey": "c85bf80bd1c484cadc7e6ab1e74145dc5018658202000000"
+        }
+    ]
+}
