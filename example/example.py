@@ -21,32 +21,34 @@ params = {
 }
 params['config'] = config
 
-trv_ = trv.Trv(params['config']['project']['id'])
-rele_ = rele.Rele(params['config']['project']['id'])
-htsensor_ = htsensor.HTSensor(params['config']['project']['id'])
-listeners = [trv_, rele_, htsensor_]
-# listeners = [trv_]
+async def main():
+    trv_ = trv.Trv(params['config']['project']['id'])
+    rele_ = rele.Rele(params['config']['project']['id'])
+    htsensor_ = htsensor.HTSensor(params['config']['project']['id'])
+    listeners = [trv_, rele_, htsensor_]
+    # listeners = [trv_]
 
-drax  = drax.Drax(params)
+    _drax  = drax.Drax(params)
 
-node = {
-    'urn': 'mqtt:gateway-test:nodo-01-python-test',
-    'supportedTypes': ["nodo-drax-sdk-test"],
-    'configurationPublishTopic': 'configurations/hmip',
-    'statePublishTopic': 'states/hmip',
-    'initialState': dict(),
-    'name': 'nodo-1-test-python'
-}
+    node = {
+        'urn': 'mqtt:gateway-test:nodo-01-python-test',
+        'supportedTypes': ["nodo-drax-sdk-test"],
+        'configurationPublishTopic': 'configurations/hmip',
+        'statePublishTopic': 'states/hmip',
+        'initialState': dict(),
+        'name': 'nodo-1-test-python'
+    }
 
-asyncio.run(drax.start())
+    await _drax.start()
 
-asyncio.run(drax.handshake(node))
+    await _drax.handshake(node)
 
-state = {'dato': '23', 'battery': '78'}
+    state = {'dato': '23', 'battery': '78'}
 
-asyncio.run(drax.setState(3839, 'mqtt:gateway-test:nodo-01-python-test', state, False))
+    await _drax.setState(3839, 'mqtt:gateway-test:nodo-01-python-test', state, False)
 
-asyncio.run(drax.addConfigurationListener("configurations/hmip", listeners))
+    await _drax.addConfigurationListener("configurations/hmip", listeners)
 
-#asyncio.run(drax.stop())
+    #asyncio.run(drax.stop())
 
+asyncio.run(main())
