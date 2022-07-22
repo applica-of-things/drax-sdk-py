@@ -1,5 +1,6 @@
 import json
 import asyncio
+import time
 
 import sys  
 # setting path
@@ -48,7 +49,7 @@ async def main():
     await _drax.setState(3839, 'mqtt:gateway-test:nodo-01-python-test', state, False)
 
     await _drax.addConfigurationListener("configurations/hmip", listeners)
-
-    #asyncio.run(drax.stop())
+    
+    await _drax.stop()
 
 asyncio.run(main())

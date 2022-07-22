@@ -1,6 +1,6 @@
 import asyncio
 import json
-from matplotlib.font_manager import json_load
+import threading
 import numpy as np
 import base64 
 
@@ -37,15 +37,17 @@ class AmqpDraxBroker:
             #self.channel.queue_declare(queue='')
 
             print("Drax Broker started on host: ", self.host, " port: ", self.port)
-        except:
+        except Exception as e:
             print("Cannot start DraxBroker")
+            print(e)
 
     async def stop(self):
         try:
-            await self.connection.close()
+            self.connection.close()
             print("Drax connection correctly closed")
-        except:
+        except Exception as e:
             print("DraxBroker close channel error")
+            print(e)
 
     async def setState(self, nodeId, urn, state, cryptographyDisabled = False):
         stateRequest = {
@@ -105,17 +107,27 @@ class AmqpDraxBroker:
             
         bindingKey = self.projectId + '.' + topic.replace("/", ".")
         self.channel.queue_bind(exchange='amq.topic', queue=queue_name, routing_key=bindingKey)
-        
-        for listener in listeners:
                     
-            def callback(ch, method, properties, body):
-                body_json = self._decrypt(body)
+        def callback(ch, method, properties, body):
+            body_json = self._decrypt(body)
+            for listener in listeners:
                 listener.callback(ch, method, properties, body_json)
             
-            self.channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=False)
-        
-            print(' [*] Waiting for messages. To exit press CTRL+C')
-            await self.channel.start_consuming()
+        self.channel.basic_consume(queue=queue_name, on_message_callback=callback, 
+            auto_ack=False)
+        #print(' Added listener : ', listener)
+
+        #asyncio.create_task(self.channel.start_consuming())
+        #loop = asyncio.get_running_loop()
+        #task = loop.create_task(self.channel.start_consuming())
+    
+        print(' [*] Waiting for messages. To exit press CTRL+C')
+        self.channel.start_consuming()
+
+# starting consumer in a second thread?        
+    #def start_consuming(self):
+    #    self.consumer_thread = threading.Thread()
+    #    self.consumer_thread.start()
 
 #    addConfigurationListener(topic, listeners = []){
 #        var projectTopic = this.params.config.project.id + "." + topic.replace(/\//g, ".")
