@@ -9,6 +9,8 @@ import pika
 from drax_ecdh_py import crypto
 
 import keystore
+from receiverService import ReceiverService
+
 
 class AmqpDraxBroker:
 
@@ -19,7 +21,7 @@ class AmqpDraxBroker:
         self.ks = keystore.Keystore()
         self.ks.addConfig(self.params['config'])
     
-    async def start(self):
+    def start(self):
         self.host = self.params['host'] if 'host' in self.params.keys() and self.params['host'] is not None else "35.205.187.28"
         self.port = self.params['port'] if 'port' in self.params.keys() and self.params['port'] is not None else  5672
         self.password = self.params['config']['project']['apiSecret']
@@ -41,7 +43,7 @@ class AmqpDraxBroker:
             print("Cannot start DraxBroker")
             print(e)
 
-    async def stop(self):
+    def stop(self):
         try:
             self.connection.close()
             print("Drax connection correctly closed")
@@ -49,7 +51,7 @@ class AmqpDraxBroker:
             print("DraxBroker close channel error")
             print(e)
 
-    async def setState(self, nodeId, urn, state, cryptographyDisabled = False):
+    def setState(self, nodeId, urn, state, cryptographyDisabled = False):
         stateRequest = {
             'apiKey': self.params['config']['project']['apiKey'],
             'apiSecret': self.params['config']['project']['apiSecret'],
@@ -94,99 +96,6 @@ class AmqpDraxBroker:
             body_json['configuration'] = unsigned_data_str
         return body_json
 
-    async def addConfigurationListener(self, topic, listeners = []):
-        
-        # set the exchange, if not set before
-        self.channel.exchange_declare(exchange="amq.topic", exchange_type='topic', durable=True)
-        
-        # for each listener, set the queue, bind the queue to the exchange 
-        # set the callback function, set basic consume and start consuming
-        ret = self.channel.queue_declare('', exclusive=True)
-            
-        queue_name = ret.method.queue
-            
-        bindingKey = self.projectId + '.' + topic.replace("/", ".")
-        self.channel.queue_bind(exchange='amq.topic', queue=queue_name, routing_key=bindingKey)
-                    
-        def callback(ch, method, properties, body):
-            body_json = self._decrypt(body)
-            for listener in listeners:
-                listener.callback(ch, method, properties, body_json)
-            
-        self.channel.basic_consume(queue=queue_name, on_message_callback=callback, 
-            auto_ack=False)
-        #print(' Added listener : ', listener)
-
-        #asyncio.create_task(self.channel.start_consuming())
-        #loop = asyncio.get_running_loop()
-        #task = loop.create_task(self.channel.start_consuming())
-    
-        print(' [*] Waiting for messages. To exit press CTRL+C')
-        self.channel.start_consuming()
-
-# starting consumer in a second thread?        
-    #def start_consuming(self):
-    #    self.consumer_thread = threading.Thread()
-    #    self.consumer_thread.start()
-
-#    addConfigurationListener(topic, listeners = []){
-#        var projectTopic = this.params.config.project.id + "." + topic.replace(/\//g, ".")
-#        console.log("Consuming topic: ", projectTopic)
-#        var exchange = 'amq.topic';
-#        var _q = null
-#
-#        this.channel.assertQueue('', {exclusive: true}, (error, q) => {
-#            if (error) {
-#                throw error
-#            }
-#            
-#            console.log(' [*] Waiting for logs. To exit press CTRL+C')
-#            
-#            this.channel.bindQueue(q.queue, exchange, projectTopic);
-#            this.channel.consume(q.queue, (msg) => {
-#
-#                console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content);
-#                
-#                if (JSON.parse(msg.content).cryptographyDisabled){
-#                    var response = JSON.parse(msg.content)
-#                    response.configuration = JSON.parse(Buffer.from(JSON.parse(msg.content).configuration, "base64"));
-#                    listeners.forEach(listener => {
-#                        if (_.isFunction(listener.configuration)){
-#                            listener.configuration(response)
-#                        }
-#                    })
-#                } else {
-#                    var signed_data = Buffer.from(JSON.parse(msg.content).configuration, "base64");
-#                    var payloadEncripted = []
-#                    for (var i = 0; i < signed_data.length; i++) {
-#                        payloadEncripted.push(signed_data[i]);
-#                    }
-#    
-#                    var received_data = new Buffer.alloc(signed_data.length);
-#                    try{
-#                        var privateKey = new Keystore().instance().getPrivateKey(JSON.parse(msg.content).nodeId).privateKey;
-#                        var publicKey = new Keystore().instance().getCloudPublicKey();
-#        
-#                        var original_len = crypto_unsign(privateKey, publicKey, payloadEncripted, payloadEncripted.length, received_data);
-#                        var response = JSON.parse(msg.content)
-#                        response.configuration = JSON.parse(received_data.slice(0, original_len))
-#                        
-#                        listeners.forEach(listener => {
-#                            if (_.isFunction(listener.configuration)){
-#                                listener.configuration(response)
-#                            }
-#                        })
-#                    }catch(e) {
-#                        console.log(e)
-#                    }
-#                }
-#            }, {
-#                    noAck: true
-#                }
-#            )
-#        })
-#        
-#    }
-#}
-#
-#module.exports = AmqpDraxBroker
+    def addConfigurationListener(self, topic, listeners = []):
+        receiverServiceThread = ReceiverService(self.channel, self.projectId, topic, self.ks, listeners)
+        receiverServiceThread.start()

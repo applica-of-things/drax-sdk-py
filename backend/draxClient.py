@@ -1,14 +1,20 @@
 from http import client
-import aiohttp
+import requests
+import json
 
+from requests import RequestException
 
 class DraxClient:
 
     def __init__(self, params):
         self.params = params
         self.serviceUrl = 'https://draxcloud.com/core'
+        self.headers = {
+                "drax-api-secret": self.params['config']['project']['apiSecret'],
+                "drax-api-key": self.params['config']['project']['apiKey']
+        }
 
-    async def handshake(self, node):
+    def handshake(self, node):
         try:
             payload = {
                 'urn': node['urn'],
@@ -20,16 +26,25 @@ class DraxClient:
                 'name': node['name'],
                 'extras': node['extras'] if 'extras' in node.keys() else []
             }
-            headers = {
-                "drax-api-secret": self.params['config']['project']['apiSecret'],
-                "drax-api-key": self.params['config']['project']['apiKey']
-            }
-            async with aiohttp.ClientSession() as session:
-                async with session.post(self.serviceUrl + '/handshake', 
-                    json=payload, headers=headers) as response:
-                    responseBody = await response.text()
-                    #print(responseBody)
-                    response.raise_for_status()
-                    return response
-        except IOError:
-            raise IOError
+            response = requests.post(
+                self.serviceUrl + '/handshake', 
+                data=payload, 
+                headers=self.headers
+            )
+            response.raise_for_status()
+            return response.json()
+        except RequestException:
+            raise RequestException()
+        
+    def listStates(self, projectId, nodeId, fromTime, toTime):
+        try:
+            params = {"projectId": projectId, "from": fromTime, "to": toTime}
+            response = requests.get(
+                self.serviceUrl + '/nodes/' + str(nodeId) + "/states", 
+                params=params, 
+                headers=self.headers
+            )
+            response.raise_for_status()
+            return response.json()
+        except RequestException:
+            raise RequestException()

@@ -1,1 +1,0 @@
-Rele: binding key: node-sdk-development-65447 message body: {'nodeId': 3839, 'timestamp': 1658526146713, 'urn': 'mqtt:gateway-test:nodo-01-python-test', 'configuration': '{"dato":"23","battery":"78"}', 'cryptographyDisabled': False}

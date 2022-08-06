@@ -1,7 +1,7 @@
 import json
 import asyncio
 import time
-
+from datetime import datetime
 import sys  
 # setting path
 sys.path.append('../drax-sdk-py')
@@ -22,7 +22,7 @@ params = {
 }
 params['config'] = config
 
-async def main():
+def main():
     trv_ = trv.Trv(params['config']['project']['id'])
     rele_ = rele.Rele(params['config']['project']['id'])
     htsensor_ = htsensor.HTSensor(params['config']['project']['id'])
@@ -40,16 +40,25 @@ async def main():
         'name': 'nodo-1-test-python'
     }
 
-    await _drax.start()
+    _drax.start()
 
-    await _drax.handshake(node)
+    # Come mai?? requests.exceptions.HTTPError: 415 Client Error: Unsupported Media Type for url
+    # _drax.handshake(node)
 
     state = {'dato': '23', 'battery': '78'}
 
-    await _drax.setState(3839, 'mqtt:gateway-test:nodo-01-python-test', state, False)
-
-    await _drax.addConfigurationListener("configurations/hmip", listeners)
+    _drax.setState(3839, 'mqtt:gateway-test:nodo-01-python-test', state, False)
     
-    await _drax.stop()
+    # test listState
+    dt_obj = datetime.strptime('5.8.2022 09:38:42,76', '%d.%m.%Y %H:%M:%S,%f')
+    fromTime = int(dt_obj.timestamp() * 1000)
+    toTime = int(time.time()*1000)
+    states = _drax.listStates('node-sdk-development-65447', 3839, fromTime, toTime)
+    print(str(states))
 
-asyncio.run(main())
+    _drax.addConfigurationListener("configurations/hmip", listeners)
+    
+    #await _drax.stop()
+
+if __name__ == "__main__":
+    main()

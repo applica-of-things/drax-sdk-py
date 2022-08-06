@@ -9,17 +9,20 @@ class Drax:
     self.draxBroker = amqpDraxBroker.AmqpDraxBroker(params)
     self.draxClient = draxClient.DraxClient(params)
 
-  async def start(self):
-    await self.draxBroker.start()
+  def start(self):
+    self.draxBroker.start()
 
-  async def stop(self):
-    await self.draxBroker.stop()
+  def stop(self):
+    self.draxBroker.stop()
 
-  async def setState(self, nodeId, urn, state, cryptographyDisabled = False):
-    await self.draxBroker.setState(nodeId, urn, state, cryptographyDisabled)
+  def setState(self, nodeId, urn, state, cryptographyDisabled = False):
+    self.draxBroker.setState(nodeId, urn, state, cryptographyDisabled)
 
-  async def handshake(self, node):
-    await self.draxClient.handshake(node)
+  def handshake(self, node):
+    self.draxClient.handshake(node)
 
-  async def addConfigurationListener(self, topic, listeners = []):
-    await self.draxBroker.addConfigurationListener(topic, listeners)
+  def addConfigurationListener(self, topic, listeners = []):
+    self.draxBroker.addConfigurationListener(topic, listeners)
+    
+  def listStates(self, projectId, nodeId, fromTime, toTime):
+    return self.draxClient.listStates(projectId, nodeId, fromTime, toTime)
