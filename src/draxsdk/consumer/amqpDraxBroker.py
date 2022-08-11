@@ -94,6 +94,27 @@ class AmqpDraxBroker:
             body_json['configuration'] = unsigned_data_str
         return body_json
 
+    def setConfiguration(self, nodeId: int, urn: str, configuration: dict, cryptographyDisabled=False):
+        
+        configurationRequest = {
+            'apiKey': self.params['config']['project']['apiKey'],
+            'apiSecret': self.params['config']['project']['apiSecret'],
+            'nodeId': nodeId,
+            'urn': urn,
+            'cryptographyDisabled': cryptographyDisabled,
+            'configuration': configuration
+        }
+
+        topic = self.projectId + ".requests.configurations"
+        print("State request to publish: ", configurationRequest)
+        
+        self.channel.exchange_declare(exchange='amq.topic', exchange_type='topic', durable=True)
+        self.channel.basic_publish(exchange='amq.topic',
+            routing_key=self.projectId+'.requests.configurations',
+            body=json.dumps(configurationRequest))
+
+        print(" [x] Sent '", json.dumps(configurationRequest), "'")
+
     def addConfigurationListener(self, topic, listeners = []):
         receiverServiceThread = ReceiverService(self.channel, self.projectId, topic, self.ks, listeners)
         receiverServiceThread.start()

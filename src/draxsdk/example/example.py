@@ -11,7 +11,7 @@ import draxsdk.drax as drax
 from draxsdk.backend import draxClient
 from draxsdk.consumer.listeners import htsensor, rele, trv
 
-fp = open('src/draxsdk/example/config.json')
+fp = open('draxsdk/example/config.json')
 config = json.load(fp)
 
 params = {
