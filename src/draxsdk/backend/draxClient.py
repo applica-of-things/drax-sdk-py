@@ -1,3 +1,4 @@
+import json
 import requests
 
 from requests import RequestException
@@ -34,9 +35,10 @@ class DraxClient:
         except RequestException:
             raise RequestException()
         
-    def listStates(self, projectId, nodeId, fromTime, toTime):
+    def listStates(self, projectId: str, nodeId: int, fromTimeMillis: int, toTimeMillis: int):
+        print("hello")
         try:
-            params = {"projectId": projectId, "from": fromTime, "to": toTime}
+            params = {"projectId": projectId, "from": fromTimeMillis, "to": toTimeMillis}
             response = requests.get(
                 self.serviceUrl + '/nodes/' + str(nodeId) + "/states", 
                 params=params, 
@@ -44,5 +46,16 @@ class DraxClient:
             )
             response.raise_for_status()
             return response.json()
+        except RequestException:
+            raise RequestException()
+        
+    def listNodesStates(self, projectId: str, nodeIds: list[int], fromTimeMillis: int, toTimeMillis: int):
+        try:
+            response = dict()
+            print("nodeIds: " + str(nodeIds))
+            for nodeId in nodeIds:
+                print("nodeId: " + str(nodeId))
+                response[nodeId] = self.listStates(projectId, nodeId, fromTimeMillis, toTimeMillis)
+            return json.dumps(response)
         except RequestException:
             raise RequestException()

@@ -25,5 +25,8 @@ class Drax:
   def addConfigurationListener(self, topic, listeners = []):
     self.draxBroker.addConfigurationListener(topic, listeners)
     
-  def listStates(self, projectId, nodeId, fromTime, toTime):
-    return self.draxClient.listStates(projectId, nodeId, fromTime, toTime)
+  def listStates(self, projectId: str, nodeId: int, fromTimeMillis: int, toTimeMillis: int):
+    return self.draxClient.listStates(projectId, nodeId, fromTimeMillis, toTimeMillis)
+  
+  def listNodesStates(self, projectId: str, nodeIds: list[int], fromTimeMillis: int, toTimeMillis: int):
+    return self.draxClient.listNodesStates(projectId, nodeIds, fromTimeMillis, toTimeMillis)
