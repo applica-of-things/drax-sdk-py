@@ -59,3 +59,14 @@ class DraxClient:
             return json.dumps(response)
         except RequestException:
             raise RequestException()
+    
+    def getProjectById(self, projectId: str):
+        try:
+            response = requests.get(
+                self.serviceUrl + '/projects/' + str(projectId), 
+                headers=self.headers
+            )
+            response.raise_for_status()
+            return response.json()
+        except RequestException:
+            raise RequestException()
