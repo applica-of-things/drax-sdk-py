@@ -7,9 +7,11 @@ import pika
 
 from drax_ecdh_py import crypto
 
+from ..keystore import Keystore
+
 class ReceiverService (threading.Thread):
    
-    def __init__(self, channel, projectId, topic, keystore, listeners = []):
+    def __init__(self, channel, projectId, topic, keystore: Keystore, listeners = []):
         threading.Thread.__init__(self)
         self.listeners = listeners
         self.topic = topic
@@ -24,7 +26,7 @@ class ReceiverService (threading.Thread):
             confBytes = confBase64.encode('ascii')
             signedData = np.frombuffer(base64.b64decode(confBytes), dtype=np.uint8)
             privateKey = self.ks.getPrivateKey(body_json['nodeId'])
-            publicKey = self.ks.getCloudPublicKey()
+            publicKey = self.ks.draxPublicKey
             privateKey_uint8 = np.frombuffer(bytearray.fromhex(privateKey), dtype=np.uint8)
             publicKey_uint8 = np.frombuffer(bytearray.fromhex(publicKey), dtype=np.uint8)
             unsigned_data = crypto.crypto_unsign(privateKey_uint8, publicKey_uint8, signedData)

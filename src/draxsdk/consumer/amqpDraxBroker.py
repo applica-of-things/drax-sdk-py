@@ -8,24 +8,30 @@ from drax_ecdh_py import crypto
 
 from draxsdk import keystore
 from draxsdk.consumer.receiverService import ReceiverService
+from draxsdk.model.parameters import DraxProjectParameters
 
 
 class AmqpDraxBroker:
-
-    def __init__(self, params):
+    """This is a class representation of AMQP broker communicating with RabbitMQ broker. 
+    :param params: setting parameters for Drax SDK 
+    :type params: class:`DraxParameters`
+    """  
+    def __init__(self, params: DraxProjectParameters):
         self.params = params
         self.connection = None
         self.channel = None
         self.ks = keystore.Keystore()
-        self.ks.addConfig(self.params['config'])
+        self.ks.addConfigurationParams(params.draxServerConfig.draxPublicKey)
     
     def start(self):
-        self.host = self.params['host'] if 'host' in self.params.keys() and self.params['host'] is not None else "35.205.187.28"
-        self.port = self.params['port'] if 'port' in self.params.keys() and self.params['port'] is not None else  5672
-        self.password = self.params['config']['project']['apiSecret']
-        self.user = self.params['config']['project']['apiKey']
-        self.vhost = self.params['vhost'] if self.params['vhost'] is not None else "/"
-        self.projectId = self.params['config']['project']['id']
+        #self.host = self.params['host'] if 'host' in self.params.keys() and self.params['host'] is not None else "35.205.187.28"
+        #self.port = self.params['port'] if 'port' in self.params.keys() and self.params['port'] is not None else  5672
+        self.host = self.params.draxServerConfig.host
+        self.port = self.params.draxServerConfig.port
+        self.password = self.params.projectApiSecret
+        self.user = self.params.projectApiKey
+        self.vhost = self.params.draxServerConfig.vhost
+        self.projectId = self.params.projectId
         self.credentials = pika.PlainCredentials(self.user, self.password)
 
         try:
@@ -51,8 +57,8 @@ class AmqpDraxBroker:
 
     def setState(self, nodeId, urn, state, cryptographyDisabled = False):
         stateRequest = {
-            'apiKey': self.params['config']['project']['apiKey'],
-            'apiSecret': self.params['config']['project']['apiSecret'],
+            'apiKey': self.params.projectApiKey,
+            'apiSecret': self.params.projectApiSecret,
             'nodeId': nodeId,
             'urn': urn,
             'cryptographyDisabled': cryptographyDisabled
@@ -63,7 +69,7 @@ class AmqpDraxBroker:
             stateRequest['state'] = data # @TODO: it is a str, should it be a list?
         else:
             privateKey = self.ks.getPrivateKey(nodeId)
-            publicKey = self.ks.getCloudPublicKey()
+            publicKey = self.ks.draxPublicKey
             privateKey_uint8 = np.frombuffer(bytearray.fromhex(privateKey), dtype=np.uint8)
             publicKey_uint8 = np.frombuffer(bytearray.fromhex(publicKey), dtype=np.uint8)
             data_uint8 = np.frombuffer(data.encode(), dtype=np.uint8)
@@ -86,7 +92,7 @@ class AmqpDraxBroker:
             confBytes = confBase64.encode('ascii')
             signedData = np.frombuffer(base64.b64decode(confBytes), dtype=np.uint8)
             privateKey = self.ks.getPrivateKey(body_json['nodeId'])
-            publicKey = self.ks.getCloudPublicKey()
+            publicKey = self.ks.draxPublicKey
             privateKey_uint8 = np.frombuffer(bytearray.fromhex(privateKey), dtype=np.uint8)
             publicKey_uint8 = np.frombuffer(bytearray.fromhex(publicKey), dtype=np.uint8)
             unsigned_data = crypto.crypto_unsign(privateKey_uint8, publicKey_uint8, signedData)
@@ -97,8 +103,8 @@ class AmqpDraxBroker:
     def setConfiguration(self, nodeId: int, urn: str, configuration: dict, cryptographyDisabled=False):
         
         configurationRequest = {
-            'apiKey': self.params['config']['project']['apiKey'],
-            'apiSecret': self.params['config']['project']['apiSecret'],
+            'apiKey': self.params.projectApiKey,
+            'apiSecret': self.params.projectApiSecret,
             'nodeId': nodeId,
             'urn': urn,
             'cryptographyDisabled': cryptographyDisabled,

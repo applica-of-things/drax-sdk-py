@@ -1,0 +1,42 @@
+{
+    "draxPublicKey": "bb099d6dce1a953c7c5d2380815ee02ea191b39206000000ceefb3c222b480459556ce440379cef89db0ccfc04000000",
+    "admin_credentials":{
+        "apiKey": "admin",
+        "apiSecret": "8b%et+z,H5<k"
+    },
+    "project":{
+        "id": "node-sdk-development-65447",
+
+    },
+    "keys": [
+        {
+            "nodeId": "3839",
+            "public_key": "db99316293e601b64f0cc42a69fa114ae6f772c201000000e23296ec17cc978798eaa8ccc99e85da30be50e102000000",
+            "privateKey": "c85bf80bd1c484cadc7e6ab1e74145dc5018658202000000"
+        }
+    ]
+
+}
+{
+    "draxPublicKey": "bb099d6dce1a953c7c5d2380815ee02ea191b39206000000ceefb3c222b480459556ce440379cef89db0ccfc04000000",
+    "draxApiKey": "admin",
+    "draxApiSecret": "8b%et+z,H5<k",
+    "draxServer" : {
+        "host" : "",
+        "port" : ,
+        "vhost" : ""
+        "serviceUrl" : ""
+    },
+    "nodesKeys" :[
+        {
+            "nodeId": "",
+            "public_key": "",
+            "privateKey": ""
+        },
+        {
+            "nodeId": "",
+            "public_key": "",
+            "privateKey": ""
+        }
+    ]
+}
