@@ -10,9 +10,9 @@
     },
     "nodesKeys" :[
         {
-            "nodeId": "",
-            "public_key": "",
-            "privateKey": ""
+            "nodeId": "3839",
+            "public_key": "db99316293e601b64f0cc42a69fa114ae6f772c201000000e23296ec17cc978798eaa8ccc99e85da30be50e102000000",
+            "privateKey": "c85bf80bd1c484cadc7e6ab1e74145dc5018658202000000"
         },
         {
             "nodeId": "",

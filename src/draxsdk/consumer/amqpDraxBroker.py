@@ -21,7 +21,10 @@ class AmqpDraxBroker:
         self.connection = None
         self.channel = None
         self.ks = keystore.Keystore()
-        self.ks.addConfigurationParams(params.draxServerConfig.draxPublicKey)
+        self.ks.addConfigurationParams(
+            params.draxServerConfig.draxPublicKey,
+            params.draxServerConfig.nodesKeys
+            )
     
     def start(self):
         #self.host = self.params['host'] if 'host' in self.params.keys() and self.params['host'] is not None else "35.205.187.28"

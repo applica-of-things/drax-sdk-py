@@ -23,8 +23,9 @@ class DraxServerConfig:
     draxPublicKey = ""
     draxApiKey = ""
     draxApiSecret = ""
+    nodesKeys = dict()
     
-    def __init__(self, host:str, draxApiKey:str, draxApiSecret:str, serviceUrl:str, draxPublicKey:str, vhost='/', port=5672):      
+    def __init__(self, host:str, draxApiKey:str, draxApiSecret:str, serviceUrl:str, draxPublicKey:str, vhost='/', port=5672, nodesKeys={}):      
         self.host = host
         self.port = port
         self.vhost = vhost
@@ -32,6 +33,7 @@ class DraxServerConfig:
         self.draxApiSecret = draxApiSecret
         self.serviceUrl = serviceUrl
         self.draxPublicKey = draxPublicKey
+        self.nodesKeys = nodesKeys
     
 class DraxProjectParameters:    
     """This class represents all the setting parameters for Drax class.

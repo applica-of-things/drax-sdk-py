@@ -63,10 +63,68 @@ class TestCaseClient(unittest.TestCase):
             assert False
 
     def test_setConfiguration(self):
-        pass
+        # get project Information at first
+        projectId = "trv-18443"
+        configFilePath = os.path.dirname(os.path.abspath(__file__)) + '/config.json'
+        draxServerConfig = drax.loadConfigFromFile(configFilePath)
+        client = draxClient.DraxClient(
+            draxServerConfig.serviceUrl, 
+            draxServerConfig.draxApiKey, 
+            draxServerConfig.draxApiSecret
+            ) 
+        try:      
+            projectInfo = client.getProjectById(projectId)
+            # initialize Drax with project parameters
+            draxProjectParams = DraxProjectParameters(
+                projectId, projectInfo['apiKey'], projectInfo['apiSecret'], 
+                draxServerConfig
+                )
+            _drax = drax.Drax(draxProjectParams)
+            _drax.start()
+            
+            # set configuration
+            nodeId = 3950
+            urn = 'trv:3014F711A0001F9D89A98A50:00201D89A8EC80' #TODO: get it from DB with rest call
+            configuration = {'targetTemperature': '21.5'}
+            _drax.setConfiguration(nodeId, urn, configuration, False)
+    
+            _drax.stop()
+            assert True
+        except Exception as ex:
+            print(ex)
+            assert False
     
     def test_setState(self):
-        pass
+        # get project Information at first
+        projectId = "trv-18443"
+        configFilePath = os.path.dirname(os.path.abspath(__file__)) + '/config.json'
+        draxServerConfig = drax.loadConfigFromFile(configFilePath)
+        client = draxClient.DraxClient(
+            draxServerConfig.serviceUrl, 
+            draxServerConfig.draxApiKey, 
+            draxServerConfig.draxApiSecret
+            ) 
+        try:      
+            projectInfo = client.getProjectById(projectId)
+            # initialize Drax with project parameters
+            draxProjectParams = DraxProjectParameters(
+                projectId, projectInfo['apiKey'], projectInfo['apiSecret'], 
+                draxServerConfig
+                )
+            _drax = drax.Drax(draxProjectParams)
+            _drax.start()
+            
+            # set state
+            nodeId = 3839
+            urn = 'mqtt:gateway-test:nodo-01-python-test' #TODO: get it from DB with rest call
+            state = {'dato': '23', 'battery': '78'}
+            _drax.setState(nodeId, urn, state, False)
+    
+            _drax.stop()
+            assert True
+        except Exception as ex:
+            print(ex)
+            assert False
     
 if __name__ == '__main__':
     # all tests

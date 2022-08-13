@@ -21,7 +21,9 @@ def loadConfigFromFile(paramsFile: str) -> DraxServerConfig:
       params['draxServer']['serviceUrl'],
       params['draxPublicKey'],
       params['draxServer']['vhost'],
-      params['draxServer']['port'])
+      params['draxServer']['port'],
+      params['nodesKeys']
+      )
 
 class Drax:
   """This is a class representation of Drax platform which must be used client-side for
