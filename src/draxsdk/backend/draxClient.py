@@ -84,3 +84,45 @@ class DraxClient:
             return response.json()
         except RequestException:
             raise RequestException()
+        
+    def getNodeById(self, nodeId: int):
+        """Returns node information given its code ID, making an HTTP GET Rest call to DraxCloud.
+        The client must have been initialized with project ApiKey and ApiSecret in request headers.
+        :param nodeId: project unique code ID
+        :type nodeId: int
+        :return: node information in JSON format
+        :rtype: str
+        """
+        try:
+            response = requests.get(
+                self.serviceUrl + '/nodes/' + str(nodeId), 
+                headers=self._get_headers()
+            )
+            response.raise_for_status()
+            return response.json()
+        except RequestException:
+            raise RequestException()
+        
+    def listNodes(self, projectId: int, keyword:str, pagingState:str):
+        """Returns information about all nodes part of a project, making an HTTP GET Rest call to DraxCloud.
+        The client must have been initialized with project ApiKey and ApiSecret in request headers.
+        :param projectId: project unique code ID
+        :type projectId: str
+        :return: nodes information in JSON format
+        :rtype: str
+        """
+        try:
+            params = {'projectId': projectId}
+            if not keyword.strip():
+                params['keyword'] = keyword
+            if not pagingState.strip():
+                params['pagingState'] = pagingState
+            response = requests.get(
+                self.serviceUrl + '/nodes/',
+                params=params, 
+                headers=self._get_headers()
+            )
+            response.raise_for_status()
+            return response.json()
+        except RequestException:
+            raise RequestException()

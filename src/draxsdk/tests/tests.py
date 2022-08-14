@@ -4,6 +4,9 @@ import datetime, time
 
 from draxsdk import drax
 from draxsdk.backend import draxClient
+from draxsdk.consumer.listeners.htsensor import HTSensor
+from draxsdk.consumer.listeners.rele import Rele
+from draxsdk.consumer.listeners.trv import Trv
 from draxsdk.model.parameters import DraxProjectParameters
 
 class TestCaseClient(unittest.TestCase):
@@ -84,9 +87,9 @@ class TestCaseClient(unittest.TestCase):
             
             # set configuration
             nodeId = 3950
-            urn = 'trv:3014F711A0001F9D89A98A50:00201D89A8EC80' #TODO: get it from DB with rest call
+            #urn = 'trv:3014F711A0001F9D89A98A50:00201D89A8EC80' #TODO: get it from DB with rest call
             configuration = {'targetTemperature': '21.5'}
-            _drax.setConfiguration(nodeId, urn, configuration, False)
+            _drax.setConfiguration(nodeId, "", configuration, False)
     
             _drax.stop()
             assert True
@@ -116,16 +119,87 @@ class TestCaseClient(unittest.TestCase):
             
             # set state
             nodeId = 3839
-            urn = 'mqtt:gateway-test:nodo-01-python-test' #TODO: get it from DB with rest call
-            state = {'dato': '23', 'battery': '78'}
-            _drax.setState(nodeId, urn, state, False)
+            #urn = 'mqtt:gateway-test:nodo-01-python-test' #TODO: get it from DB with rest call
+            state = {'dato': '35', 'battery': '88'}
+            _drax.setState(nodeId, "", state, False)
     
             _drax.stop()
             assert True
         except Exception as ex:
             print(ex)
             assert False
+            
+    def test_addConfigurationListener(self):
+        # get project Information at first
+        projectId = "node-sdk-development-65447"
+        nodeId = 3839
+        configFilePath = os.path.dirname(os.path.abspath(__file__)) + '/config.json'
+        draxServerConfig = drax.loadConfigFromFile(configFilePath)
+        client = draxClient.DraxClient(
+            draxServerConfig.serviceUrl, 
+            draxServerConfig.draxApiKey, 
+            draxServerConfig.draxApiSecret
+            ) 
+        try:      
+            projectInfo = client.getProjectById(projectId)
+            # initialize Drax with project parameters
+            draxProjectParams = DraxProjectParameters(
+                projectId, projectInfo['apiKey'], projectInfo['apiSecret'], 
+                draxServerConfig
+                )
+            _drax = drax.Drax(draxProjectParams)
+            _drax.start()
+            
+            # set listeners
+            trv_ = Trv(projectId)
+            rele_ = Rele(projectId)
+            htsensor_ = HTSensor(projectId)
+            listeners = [trv_, rele_, htsensor_]
+            
+            # get node topic
+            nodeInfo = _drax.getNodeById(nodeId)
+            # add configuration listener
+            _drax.addConfigurationListener(
+                nodeInfo['configurationPublishTopic'], 
+                listeners
+                )
     
+            #_drax.stop() # don't close connection to drax
+            assert True
+        except Exception as ex:
+            print(ex)
+            assert False
+
+    def test_listNodes(self):
+        # get project Information at first
+        projectId = "trv-18443"
+        configFilePath = os.path.dirname(os.path.abspath(__file__)) + '/config.json'
+        draxServerConfig = drax.loadConfigFromFile(configFilePath)
+        client = draxClient.DraxClient(
+            draxServerConfig.serviceUrl, 
+            draxServerConfig.draxApiKey, 
+            draxServerConfig.draxApiSecret
+            ) 
+        try:      
+            projectInfo = client.getProjectById(projectId)
+            # initialize Drax with project parameters
+            draxProjectParams = DraxProjectParameters(
+                projectId, projectInfo['apiKey'], projectInfo['apiSecret'], 
+                draxServerConfig
+                )
+            _drax = drax.Drax(draxProjectParams)
+            _drax.start()
+            
+            # get nodes
+            nodesInfo = _drax.listNodes(projectId)
+            print(nodesInfo['results'][0])
+            
+            _drax.stop()
+            assert True
+        except Exception as ex:
+            print(ex)
+            assert False
+
 if __name__ == '__main__':
     # all tests
     testSuite = unittest.TestSuite()
@@ -133,4 +207,6 @@ if __name__ == '__main__':
     testSuite.addTest(TestCaseClient("test_listNodesStates"))
     testSuite.addTest(TestCaseClient("test_setConfiguration"))
     testSuite.addTest(TestCaseClient("test_setState"))
+    testSuite.addTest(TestCaseClient("test_addConfigurationListener"))
+    testSuite.addTest(TestCaseClient("test_listNodes"))
     unittest.TextTestRunner().run(testSuite)

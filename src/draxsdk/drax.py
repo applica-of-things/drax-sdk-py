@@ -64,4 +64,9 @@ class Drax:
   def listNodesStates(self, projectId: str, nodeIds: list[int], fromTimeMillis: int, toTimeMillis: int):
     return self.draxClient.listNodesStates(projectId, nodeIds, fromTimeMillis, toTimeMillis)
   
+  def getNodeById(self, nodeId: int):
+    return self.draxClient.getNodeById(nodeId)
+  
+  def listNodes(self, projectId: int, keyword='', pagingState=''):
+    return self.draxClient.listNodes(projectId, keyword, pagingState)
       
