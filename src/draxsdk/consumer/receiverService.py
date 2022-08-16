@@ -5,7 +5,7 @@ import base64
 
 import pika
 
-from drax_ecdh_py import crypto
+from draxecdh import crypto
 
 from ..keystore import Keystore
 
