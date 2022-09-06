@@ -14,5 +14,10 @@ src/draxsdk/backend/draxClient.py
 src/draxsdk/consumer/__init__.py
 src/draxsdk/consumer/amqpDraxBroker.py
 src/draxsdk/consumer/receiverService.py
+src/draxsdk/consumer/listeners/__init__.py
+src/draxsdk/consumer/listeners/htsensor.py
+src/draxsdk/consumer/listeners/listener.py
+src/draxsdk/consumer/listeners/rele.py
+src/draxsdk/consumer/listeners/trv.py
 src/draxsdk/model/__init__.py
 src/draxsdk/model/parameters.py
