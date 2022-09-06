@@ -1,6 +1,8 @@
-import os
+import os, sys
 import unittest
 import datetime, time 
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../..")
 
 from draxsdk import drax
 from draxsdk.backend import draxClient
