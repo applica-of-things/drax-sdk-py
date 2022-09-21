@@ -125,5 +125,9 @@ class AmqpDraxBroker:
         print(" [x] Sent '", json.dumps(configurationRequest), "'")
 
     def addConfigurationListener(self, topic, listeners = []):
-        receiverServiceThread = ReceiverService(self.channel, self.projectId, topic, self.ks, listeners)
+        receiverServiceThread = ReceiverService(self.channel, self.projectId, topic, self.ks, listeners, decryptionEnable=True)
+        receiverServiceThread.start()
+        
+    def addStateListener(self, topic: str, listeners = []):
+        receiverServiceThread = ReceiverService(self.channel, self.projectId, topic, self.ks, listeners, decryptionEnable=False)
         receiverServiceThread.start()

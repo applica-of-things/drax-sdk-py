@@ -9,6 +9,7 @@ from draxsdk.backend import draxClient
 from draxsdk.consumer.listeners.htsensor import HTSensor
 from draxsdk.consumer.listeners.rele import Rele
 from draxsdk.consumer.listeners.trv import Trv
+from draxsdk.consumer.listeners.stateListener import StateListener
 from draxsdk.model.parameters import DraxProjectParameters
 
 class TestCaseClient(unittest.TestCase):
@@ -202,6 +203,45 @@ class TestCaseClient(unittest.TestCase):
             print(ex)
             assert False
 
+    def test_addStateListener(self):
+        # get project Information at first
+        projectId = "trv-18443"
+        configFilePath = os.path.dirname(os.path.abspath(__file__)) + '/config.json'
+        draxServerConfig = drax.loadConfigFromFile(configFilePath)
+        client = draxClient.DraxClient(
+            draxServerConfig.serviceUrl, 
+            draxServerConfig.draxApiKey, 
+            draxServerConfig.draxApiSecret
+            ) 
+        try:      
+            projectInfo = client.getProjectById(projectId)
+            # initialize Drax with project parameters
+            draxProjectParams = DraxProjectParameters(
+                projectId, projectInfo['apiKey'], projectInfo['apiSecret'], 
+                draxServerConfig
+                )
+            _drax = drax.Drax(draxProjectParams)
+            _drax.start()
+            
+            # set listeners
+            trv_ = Trv(projectId)
+            rele_ = Rele(projectId)
+            htsensor_ = HTSensor(projectId)
+            stateListener_ = StateListener(projectId)
+            listeners = [stateListener_]
+            
+            # add configuration listener
+            _drax.addStateListener(
+                "mqtt/states/thermovalve", 
+                listeners
+                )
+    
+            #_drax.stop() # don't close connection to drax
+            assert True
+        except Exception as ex:
+            print(ex)
+            assert False
+
 if __name__ == '__main__':
     # all tests
     testSuite = unittest.TestSuite()
@@ -211,4 +251,5 @@ if __name__ == '__main__':
     testSuite.addTest(TestCaseClient("test_setState"))
     testSuite.addTest(TestCaseClient("test_addConfigurationListener"))
     testSuite.addTest(TestCaseClient("test_listNodes"))
+    testSuite.addTest(TestCaseClient("test_addStateListener"))
     unittest.TextTestRunner().run(testSuite)

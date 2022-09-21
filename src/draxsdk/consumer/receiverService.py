@@ -11,13 +11,14 @@ from ..keystore import Keystore
 
 class ReceiverService (threading.Thread):
    
-    def __init__(self, channel, projectId, topic, keystore: Keystore, listeners = []):
+    def __init__(self, channel, projectId, topic, keystore: Keystore, listeners = [], decryptionEnable=True):
         threading.Thread.__init__(self)
         self.listeners = listeners
         self.topic = topic
         self.channel = channel
         self.projectId = projectId
         self.ks = keystore
+        self.decryptionEnable = decryptionEnable
    
     def _decrypt(self, body):
         body_json = json.loads(body)
@@ -48,7 +49,10 @@ class ReceiverService (threading.Thread):
         self.channel.queue_bind(exchange='amq.topic', queue=queue_name, routing_key=bindingKey)
                     
         def callback(ch, method, properties, body):
-            body_json = self._decrypt(body)
+            if(self.decryptionEnable):
+                body_json = self._decrypt(body)
+            else:
+                body_json = body
             for listener in self.listeners:
                 listener.callback(ch, method, properties, body_json)
             

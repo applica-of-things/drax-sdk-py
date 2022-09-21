@@ -1,8 +1,9 @@
 import json
 import time
 from datetime import datetime
-import sys  
+import sys, os 
 # setting path
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../..")
 sys.path.append('../draxsdk')
 sys.path.append('../draxsdk/consumer')
 sys.path.append('../draxsdk/consumer/listeners')
@@ -10,9 +11,10 @@ sys.path.append('../draxsdk/consumer/listeners')
 
 from draxsdk import drax
 from draxsdk.backend import draxClient
-from draxsdk.consumer.listeners import htsensor, rele, trv
+from draxsdk.consumer.listeners import htsensor, rele, trv, stateListener
 
-fp = open('src/draxsdk/example/config_trv.json')
+filePath = os.path.dirname(os.path.abspath(__file__))+'/config_trv.json'
+fp = open(filePath)
 config = json.load(fp)
 
 params = {
@@ -26,16 +28,18 @@ def main():
     trv_ = trv.Trv(params['config']['project']['id'])
     rele_ = rele.Rele(params['config']['project']['id'])
     htsensor_ = htsensor.HTSensor(params['config']['project']['id'])
-    listeners = [trv_, rele_, htsensor_]
-    # listeners = [trv_]
+    stateListener_ = stateListener.StateListener(params['config']['project']['id']) 
+    # listeners = [trv_, rele_, htsensor_]
+    listeners = [stateListener_]
 
-    _drax  = drax.Drax(params)
+    _drax  = drax.Drax(drax.loadConfigFromFile(filePath))
     _drax.start()
 
     # set configuration
     configuration = {'targetTemperature': '21.5'}
     _drax.setConfiguration(3950, 'trv:3014F711A0001F9D89A98A50:00201D89A8EC80', configuration, False)
     
+    _drax.addStateListener("mqtt/states/thermovalve", listeners)
     # list states from one or multiple nodes
     #dt_obj = datetime.strptime('11.8.2022 14:30:42,76', '%d.%m.%Y %H:%M:%S,%f')
     #fromTime = int(dt_obj.timestamp() * 1000)

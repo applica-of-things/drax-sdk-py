@@ -65,8 +65,34 @@ class Drax:
     return self.draxClient.listNodesStates(projectId, nodeIds, fromTimeMillis, toTimeMillis)
   
   def getNodeById(self, nodeId: int):
+    """Returns node information given its code ID, making an HTTP GET Rest call to DraxCloud.
+        The client must have been initialized with project ApiKey and ApiSecret in request headers.
+        :param nodeId: project unique code ID
+        :type nodeId: int
+        :return: node information in JSON format
+        :rtype: str
+    """
     return self.draxClient.getNodeById(nodeId)
   
   def listNodes(self, projectId: int, keyword='', pagingState=''):
+    """Returns information about all nodes part of a project, making an HTTP GET Rest call to DraxCloud.
+        The client must have been initialized with project ApiKey and ApiSecret in request headers.
+        :param projectId: project unique code ID
+        :type projectId: str
+        :return: nodes information in JSON format
+        :rtype: str
+    """
     return self.draxClient.listNodes(projectId, keyword, pagingState)
-      
+  
+  def addStateListener(self, topic: str, listeners):
+    """Add a node state listener in order to get information published by nodes in queue.
+    It returns nothing; it start the receiver service.
+
+    :param topic: Topic where the node publishes the message
+    :type topic: str
+    :param listeners: list of listeners objects waiting for node's message
+    :type listeners: Listener[]
+    :return: None
+    :rtype: -
+    """
+    self.draxBroker.addStateListener(topic, listeners)
