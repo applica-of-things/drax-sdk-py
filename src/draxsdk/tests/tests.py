@@ -253,11 +253,11 @@ class TestCaseClient(unittest.TestCase):
 if __name__ == '__main__':
     # all tests
     testSuite = unittest.TestSuite()
-    #testSuite.addTest(TestCaseClient("test_getProjectById"))
-    #testSuite.addTest(TestCaseClient("test_listNodesStates"))
-    #testSuite.addTest(TestCaseClient("test_setConfiguration"))
+    testSuite.addTest(TestCaseClient("test_getProjectById"))
+    testSuite.addTest(TestCaseClient("test_listNodesStates"))
+    testSuite.addTest(TestCaseClient("test_setConfiguration"))
     testSuite.addTest(TestCaseClient("test_setState"))
-    #testSuite.addTest(TestCaseClient("test_addConfigurationListener"))
-    #testSuite.addTest(TestCaseClient("test_listNodes"))
-    #testSuite.addTest(TestCaseClient("test_addStateListener"))
+    testSuite.addTest(TestCaseClient("test_addConfigurationListener"))
+    testSuite.addTest(TestCaseClient("test_listNodes"))
+    testSuite.addTest(TestCaseClient("test_addStateListener"))
     unittest.TextTestRunner().run(testSuite)
