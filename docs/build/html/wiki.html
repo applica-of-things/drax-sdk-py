@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drax SDK Wiki (HowTo guide) &mdash; Drax SDK (Software Development Toolkit) Python 1.0.16 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Drax SDK Modules" href="modules.html" />
+    <link rel="prev" title="Welcome to Drax SDK (Software Development Toolkit) Python’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Drax SDK (Software Development Toolkit) Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Drax SDK Wiki (HowTo guide)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initializing-drax">Initializing Drax</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Drax SDK Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Drax SDK (Software Development Toolkit) Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Drax SDK Wiki (HowTo guide)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/wiki.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="drax-sdk-wiki-howto-guide">
+<h1>Drax SDK Wiki (HowTo guide)<a class="headerlink" href="#drax-sdk-wiki-howto-guide" title="Permalink to this heading"></a></h1>
+<section id="initializing-drax">
+<h2>Initializing Drax<a class="headerlink" href="#initializing-drax" title="Permalink to this heading"></a></h2>
+<p>In case of <strong>internal Drax module</strong> (i.d. drax-ai), having access to Drax Admin credentials, it is possibile to initialize a drax client instance and get project information, within project credentials details,
+calling Drax platform REST API service.
+Moreover, using project credentials, the drax instance can be created.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">projectId</span><span class="o">=</span><span class="s2">&quot;sampleProjectId&quot;</span>
+
+<span class="c1">#load Drax Admin credentials for internal configuration file</span>
+<span class="n">draxServerConfig</span> <span class="o">=</span> <span class="n">drax</span><span class="o">.</span><span class="n">loadConfigFromFile</span><span class="p">(</span><span class="n">configFilePath</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">draxClient</span><span class="o">.</span><span class="n">DraxClient</span><span class="p">(</span><span class="n">draxServerConfig</span><span class="o">.</span><span class="n">serviceUrl</span><span class="p">,</span> <span class="n">draxServerConfig</span><span class="o">.</span><span class="n">draxApiKey</span><span class="p">,</span> <span class="n">draxServerConfig</span><span class="o">.</span><span class="n">draxApiSecret</span><span class="p">)</span>
+
+<span class="c1">#get project information from ID using draxClient (API REST service)</span>
+<span class="n">projectInfo</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getProjectById</span><span class="p">(</span><span class="n">projectId</span><span class="p">)</span>
+
+<span class="c1">#initialize Drax with project parameters</span>
+<span class="n">draxProjectParams</span> <span class="o">=</span> <span class="n">DraxProjectParameters</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">projectInfo</span><span class="p">[</span><span class="s1">&#39;apiKey&#39;</span><span class="p">],</span> <span class="n">projectInfo</span><span class="p">[</span><span class="s1">&#39;apiSecret&#39;</span><span class="p">],</span> <span class="n">draxServerConfig</span><span class="p">)</span>
+
+<span class="c1">#init drax instance</span>
+<span class="n">_drax</span> <span class="o">=</span> <span class="n">drax</span><span class="o">.</span><span class="n">Drax</span><span class="p">(</span><span class="n">draxProjectParams</span><span class="p">)</span>
+<span class="n">_drax</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># code here....</span>
+
+<span class="n">_drax</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Sample of <strong>configuration file</strong> (JSON format) for internal Drax module:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="nt">&quot;draxPublicKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb099d6dce1a953c7c5d2380815ee02ea191b39206000000ceefb3c222b480459556ce440379cef89db0ccfc04000000&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="nt">&quot;draxApiKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;XXXXXX&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="nt">&quot;draxApiSecret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;XXXXXX&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="nt">&quot;draxServer&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;host&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;35.205.187.28&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">5672</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vhost&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;serviceUrl&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://draxcloud.com/core&quot;</span><span class="w"></span>
+<span class="p">},</span><span class="w"></span>
+<span class="nt">&quot;nodesKeys&quot;</span><span class="w"> </span><span class="p">:[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;nodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3839&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;public_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;db99316293e601b64f0cc42a69fa114ae6f772c201000000e23296ec17cc978798eaa8ccc99e85da30be50e102000000&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;privateKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c85bf80bd1c484cadc7e6ab1e74145dc5018658202000000&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;nodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4348&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;public_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0460a4febdd287f4e9a6b43f208e010b2140b67d0300000080f961adf3ef5d2878f50066790dbc4ac2a1786203000000&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;privateKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50891df1beb0a9fec171c34fb801edfc683fab6e00000000&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>In case of a <strong>third-part application</strong>, it must own alrady project credentials to instantiate a Drax instance.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># sample data</span>
+<span class="n">projectId</span> <span class="o">=</span> <span class="s2">&quot;sampleProjectId&quot;</span>
+<span class="n">projectApiKey</span> <span class="o">=</span> <span class="s2">&quot;euinr7899vffkd&quot;</span>
+<span class="n">projectApiSecret</span> <span class="o">=</span> <span class="s2">&quot;33884940fsdmfemrnegr00040frgfrrg&quot;</span>
+
+<span class="c1">#load Drax Admin credentials for internal configuration file</span>
+<span class="n">draxServerConfig</span> <span class="o">=</span> <span class="n">drax</span><span class="o">.</span><span class="n">loadConfigFromFile</span><span class="p">(</span><span class="n">configFilePath</span><span class="p">)</span>
+
+<span class="c1">#initialize Drax with project parameters</span>
+<span class="n">draxProjectParams</span> <span class="o">=</span> <span class="n">DraxProjectParameters</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">projectApiKey</span><span class="p">,</span> <span class="n">projectApiSecret</span><span class="p">,</span> <span class="n">draxServerConfig</span><span class="p">)</span>
+
+<span class="c1">#init drax instance</span>
+<span class="n">_drax</span> <span class="o">=</span> <span class="n">drax</span><span class="o">.</span><span class="n">Drax</span><span class="p">(</span><span class="n">draxProjectParams</span><span class="p">)</span>
+<span class="n">_drax</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># code here....</span>
+
+<span class="n">_drax</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Sample of <strong>configuration file</strong> (JSON format) for third-part application:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="nt">&quot;draxPublicKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb099d6dce1a953c7c5d2380815ee02ea191b39206000000ceefb3c222b480459556ce440379cef89db0ccfc04000000&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="nt">&quot;draxServer&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;host&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;35.205.187.28&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">5672</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vhost&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;serviceUrl&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://draxcloud.com/core&quot;</span><span class="w"></span>
+<span class="p">},</span><span class="w"></span>
+<span class="nt">&quot;nodesKeys&quot;</span><span class="w"> </span><span class="p">:[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;nodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3839&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;public_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;db99316293e601b64f0cc42a69fa114ae6f772c201000000e23296ec17cc978798eaa8ccc99e85da30be50e102000000&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;privateKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c85bf80bd1c484cadc7e6ab1e74145dc5018658202000000&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;nodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4348&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;public_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0460a4febdd287f4e9a6b43f208e010b2140b67d0300000080f961adf3ef5d2878f50066790dbc4ac2a1786203000000&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;privateKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50891df1beb0a9fec171c34fb801edfc683fab6e00000000&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Drax SDK (Software Development Toolkit) Python’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="Drax SDK Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Applica S.R.L..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

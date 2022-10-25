@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: draxsdk
-Version: 1.0.13
+Version: 1.0.15
 Summary: Python SDK for Drax platform
 Home-page: https://github.com/applica-of-things/drax-sdk-py
 Author: Applica S.R.L.
@@ -19,7 +19,7 @@ Python SDK for Drax platform
 ### Installation 
 To install the package you need to run the following command:
 
-`$ pip install draxsdk`
+`$ python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps draxsdk`
 
 ### Usage 
 Import drax SDK module in your code:

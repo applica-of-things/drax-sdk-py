@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drax module &mdash; Drax SDK (Software Development Toolkit) Python 1.0.16 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Drax SDK Modules" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Drax SDK (Software Development Toolkit) Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="wiki.html">Drax SDK Wiki (HowTo guide)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wiki.html#init-drax">Init Drax</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Drax SDK Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Drax module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#drax.Drax"><code class="docutils literal notranslate"><span class="pre">Drax</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.addConfigurationListener"><code class="docutils literal notranslate"><span class="pre">Drax.addConfigurationListener()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.addStateListener"><code class="docutils literal notranslate"><span class="pre">Drax.addStateListener()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.getNodeById"><code class="docutils literal notranslate"><span class="pre">Drax.getNodeById()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.handshake"><code class="docutils literal notranslate"><span class="pre">Drax.handshake()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.listNodes"><code class="docutils literal notranslate"><span class="pre">Drax.listNodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.listNodesStates"><code class="docutils literal notranslate"><span class="pre">Drax.listNodesStates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.listStates"><code class="docutils literal notranslate"><span class="pre">Drax.listStates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.setConfiguration"><code class="docutils literal notranslate"><span class="pre">Drax.setConfiguration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.setState"><code class="docutils literal notranslate"><span class="pre">Drax.setState()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.start"><code class="docutils literal notranslate"><span class="pre">Drax.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.stop"><code class="docutils literal notranslate"><span class="pre">Drax.stop()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#drax.loadConfigFromFile"><code class="docutils literal notranslate"><span class="pre">loadConfigFromFile()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Drax SDK (Software Development Toolkit) Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">Drax SDK Modules</a> &raquo;</li>
+      <li>Drax module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/drax.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-drax">
+<span id="drax-module"></span><h1>Drax module<a class="headerlink" href="#module-drax" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="drax.Drax">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">drax.</span></span><span class="sig-name descname"><span class="pre">Drax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DraxProjectParameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is a class representation of Drax platform which must be used by third part 
+application for accessing Drax IoT functionalities and services.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (class:<cite>DraxParameters</cite>) – setting parameters for Drax SDK</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.addConfigurationListener">
+<span class="sig-name descname"><span class="pre">addConfigurationListener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">listeners</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">draxsdk.consumer.listeners.listener.Listener</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.addConfigurationListener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.addConfigurationListener" title="Permalink to this definition"></a></dt>
+<dd><p>This method is called to attach a configuration listener to an IoT node.
+The listener will be listening to a specific topic on a queue of the AMQP Drax Message 
+Broker.
+The queue is set to buffer configuration messages coming from Drax Cloud platform
+or third part application and directed to the node.
+It is possibile to attach more that one listener for a single topic.</p>
+<p>This function can be called on a device (node, i.e. sensor or gateway)
+that will be waiting for configuration commands waiting on AMQP Drax Message Broker
+queue coming from Drax Cloud platforma .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> (<em>str</em>) – topic to be listening to</p></li>
+<li><p><strong>listeners</strong> (<em>ListenersList</em><em>, </em><em>[</em><em>Listener</em><em>]</em>) – list of Listeners objects</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.addStateListener">
+<span class="sig-name descname"><span class="pre">addStateListener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">listeners</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">draxsdk.consumer.listeners.listener.Listener</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.addStateListener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.addStateListener" title="Permalink to this definition"></a></dt>
+<dd><p>Add a node state listener in order to get information published by nodes in a queue
+defined by a specific topic on AMQP Drax Message Broker.
+The queue is set to buffer state messages coming from IoT nodes and directed to Drax Cloud platform.
+It is possibile to attach more that one listener for a single topic.
+This function can be called from a third part application or internal Drax module 
+that will be waiting for stated sent by nodes.
+It returns nothing; it start the receiver service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> (<em>str</em>) – Topic where the node publishes the message</p></li>
+<li><p><strong>listeners</strong> (<em>Listener</em><em>[</em><em>]</em>) – list of listeners objects waiting for node’s message</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.getNodeById">
+<span class="sig-name descname"><span class="pre">getNodeById</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/drax.html#Drax.getNodeById"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.getNodeById" title="Permalink to this definition"></a></dt>
+<dd><p>Returns node information given its code ID, making an HTTP GET Rest call to DraxCloud.
+The client must have been initialized with project ApiKey and ApiSecret in request headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nodeId</strong> (<em>int</em>) – project unique code ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>node information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.handshake">
+<span class="sig-name descname"><span class="pre">handshake</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.handshake"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.handshake" title="Permalink to this definition"></a></dt>
+<dd><p>&#64;TBC</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>dict</em>) – _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.listNodes">
+<span class="sig-name descname"><span class="pre">listNodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projectId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagingState</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/drax.html#Drax.listNodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.listNodes" title="Permalink to this definition"></a></dt>
+<dd><p>Returns information about all nodes part of a project, making an HTTP GET Rest call to DraxCloud.
+The client must have been initialized with project ApiKey and ApiSecret in request headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>projectId</strong> (<em>str</em>) – project unique code ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict of nodes information (JSON format)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.listNodesStates">
+<span class="sig-name descname"><span class="pre">listNodesStates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projectId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodeIds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromTimeMillis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toTimeMillis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.listNodesStates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.listNodesStates" title="Permalink to this definition"></a></dt>
+<dd><p>This method can be called by a third part application to Drax Cloud platform 
+in order to get the states of multiple nodes part of a project (selected by their IDs)
+relative to a time interval set by timestamps limits expressed in millisecs.
+The communication is direct, it uses an HTTPs POST request to Drax Cloud platform REST API service.
+Source: Application (third-part) or internal Drax module
+Comunication protocol: HTTPs 
+Destination (final): Drax Cloud platform (REST API service)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projectId</strong> (<em>str</em>) – Project Identifier</p></li>
+<li><p><strong>nodeIds</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – list of IoT nodes’ identifiers</p></li>
+<li><p><strong>fromTimeMillis</strong> (<em>int</em>) – initial time (millis)</p></li>
+<li><p><strong>toTimeMillis</strong> (<em>int</em>) – final time (millis)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict of nodes’ states in time interval</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.listStates">
+<span class="sig-name descname"><span class="pre">listStates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projectId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodeId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromTimeMillis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toTimeMillis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/drax.html#Drax.listStates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.listStates" title="Permalink to this definition"></a></dt>
+<dd><p>This method can be called by a third part application or internal Drax module to Drax Cloud platform 
+in order to get the states of a single node part of a project (selected by their IDs)
+relative to a time interval set by timestamps limits expressed in millisecs.
+The communication is direct, it uses an HTTPs POST request to Drax Cloud platform REST API service.
+Source: Application (third-part) or internal Drax module
+Comunication protocol: HTTPs 
+Destination (final): Drax Cloud platform (REST API service)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projectId</strong> (<em>str</em>) – Project Identifier</p></li>
+<li><p><strong>nodeId</strong> (<em>int</em>) – IoT node identifier</p></li>
+<li><p><strong>fromTimeMillis</strong> (<em>int</em>) – initial time (millis)</p></li>
+<li><p><strong>toTimeMillis</strong> (<em>int</em>) – final time (millis)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict of node’s states in time interval</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.setConfiguration">
+<span class="sig-name descname"><span class="pre">setConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cryptographyDisabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.setConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.setConfiguration" title="Permalink to this definition"></a></dt>
+<dd><p>This method is called by Drax Cloud platform to send a configuration (command)
+to one node part of Drax Iot network.
+The communication is not direct, but it uses AMQP Drax Message Broker.
+Source: Drax Cloud platform
+Comunication protocol: AMQP queue selected on a specific topic 
+Destination (intermediate): Drax Message Broker
+Destination (final): IoT node
+This function can be called by third part application or internal Drax module to send a configuration command to
+an IoT node of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodeId</strong> (<em>int</em>) – IoT node identifier (receiver)</p></li>
+<li><p><strong>urn</strong> (<em>str</em>) – URN</p></li>
+<li><p><strong>configuration</strong> (<em>dict</em>) – configuration to be sent to the node</p></li>
+<li><p><strong>cryptographyDisabled</strong> (<em>bool</em><em>, </em><em>optional</em>) – flag to control ECDH cryptografy on data, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.setState">
+<span class="sig-name descname"><span class="pre">setState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cryptographyDisabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.setState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.setState" title="Permalink to this definition"></a></dt>
+<dd><p>This method is called by the node or the gateway, which the node is connected
+to, in order to comunicate its state to Drax Cloud platform.
+Source: IoT node / gateway
+Comunication protocol: AMQP queue selected on a specific topic 
+Destination (intermediate): Drax Message Broker
+Destination (final): Drax Cloud platform
+This function is used by sensors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodeId</strong> (<em>int</em>) – IoT node identifier (sender)</p></li>
+<li><p><strong>urn</strong> (<em>str</em>) – URN</p></li>
+<li><p><strong>state</strong> (<em>dict</em>) – state to be sent to Drax cloud</p></li>
+<li><p><strong>cryptographyDisabled</strong> (<em>bool</em><em>, </em><em>optional</em>) – flag to control ECDH cryptografy on data, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.start" title="Permalink to this definition"></a></dt>
+<dd><p>Start the drax instance: it connects Drax SDK to Drax AMQP message Broker.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/drax.html#Drax.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.stop" title="Permalink to this definition"></a></dt>
+<dd><p>Stop the drax instance: it disconnects Drax SDK from Drax AMQP message Broker.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="drax.loadConfigFromFile">
+<span class="sig-prename descclassname"><span class="pre">drax.</span></span><span class="sig-name descname"><span class="pre">loadConfigFromFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramsFile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DraxServerConfig</span></span></span><a class="reference internal" href="_modules/drax.html#loadConfigFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.loadConfigFromFile" title="Permalink to this definition"></a></dt>
+<dd><p>Loads Drax Server configuration parameter from JSON file to DraxServerConfig object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>paramsFile</strong> (<em>str</em>) – path (abs or relative) to the JSON file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Drax Server configuration object to be used to initialize Drax / DraxClient</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DraxServerConfig</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Drax SDK Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Applica S.R.L..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

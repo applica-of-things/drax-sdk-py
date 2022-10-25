@@ -100,9 +100,8 @@ class TestCaseClient(unittest.TestCase):
             print(ex)
             assert False
     
-    def test_setState(self):
+    def _setState(self, projectId: str, nodeId: int, state: dict()):
         # get project Information at first
-        projectId = "trv-18443"
         configFilePath = os.path.dirname(os.path.abspath(__file__)) + '/config.json'
         draxServerConfig = drax.loadConfigFromFile(configFilePath)
         client = draxClient.DraxClient(
@@ -121,16 +120,25 @@ class TestCaseClient(unittest.TestCase):
             _drax.start()
             
             # set state
-            nodeId = 3839
             #urn = 'mqtt:gateway-test:nodo-01-python-test' #TODO: get it from DB with rest call
-            state = {'dato': '35', 'battery': '88'}
-            _drax.setState(nodeId, "", state, False)
+            _drax.setState(nodeId, None, state, False)
     
             _drax.stop()
             assert True
         except Exception as ex:
             print(ex)
             assert False
+    
+    def test_setState(self):
+        state = {'dato': '22205', 'battery': '10'}
+        #node-sdk-development-65447
+        self._setState("drax-simu-project-82327", 3839, state)
+        
+        state = {'internalTemperature': '25.5', 'externalTemperature': '10.5',
+                'timestamp':'1662657117864'}
+        self._setState("drax-simu-project-82327", 4348, state)
+        assert True
+        
             
     def test_addConfigurationListener(self):
         # get project Information at first
@@ -245,11 +253,11 @@ class TestCaseClient(unittest.TestCase):
 if __name__ == '__main__':
     # all tests
     testSuite = unittest.TestSuite()
-    testSuite.addTest(TestCaseClient("test_getProjectById"))
-    testSuite.addTest(TestCaseClient("test_listNodesStates"))
-    testSuite.addTest(TestCaseClient("test_setConfiguration"))
+    #testSuite.addTest(TestCaseClient("test_getProjectById"))
+    #testSuite.addTest(TestCaseClient("test_listNodesStates"))
+    #testSuite.addTest(TestCaseClient("test_setConfiguration"))
     testSuite.addTest(TestCaseClient("test_setState"))
-    testSuite.addTest(TestCaseClient("test_addConfigurationListener"))
-    testSuite.addTest(TestCaseClient("test_listNodes"))
-    testSuite.addTest(TestCaseClient("test_addStateListener"))
+    #testSuite.addTest(TestCaseClient("test_addConfigurationListener"))
+    #testSuite.addTest(TestCaseClient("test_listNodes"))
+    #testSuite.addTest(TestCaseClient("test_addStateListener"))
     unittest.TextTestRunner().run(testSuite)

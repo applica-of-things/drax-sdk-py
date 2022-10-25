@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>drax &mdash; Drax SDK (Software Development Toolkit) Python 1.0.16 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Drax SDK (Software Development Toolkit) Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../wiki.html">Drax SDK Wiki (HowTo guide)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wiki.html#init-drax">Init Drax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Drax SDK Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Drax SDK (Software Development Toolkit) Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>drax</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for drax</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">draxsdk.backend</span> <span class="kn">import</span> <span class="n">draxClient</span>
+<span class="kn">from</span> <span class="nn">draxsdk.consumer</span> <span class="kn">import</span> <span class="n">amqpDraxBroker</span>
+<span class="kn">from</span> <span class="nn">draxsdk.model.parameters</span> <span class="kn">import</span> <span class="n">DraxProjectParameters</span><span class="p">,</span> <span class="n">DraxServerConfig</span>
+<span class="kn">from</span> <span class="nn">draxsdk.consumer.listeners.listener</span> <span class="kn">import</span> <span class="n">Listener</span>
+
+
+<div class="viewcode-block" id="loadConfigFromFile"><a class="viewcode-back" href="../drax.html#drax.loadConfigFromFile">[docs]</a><span class="k">def</span> <span class="nf">loadConfigFromFile</span><span class="p">(</span><span class="n">paramsFile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DraxServerConfig</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;Loads Drax Server configuration parameter from JSON file to DraxServerConfig object.</span>
+
+<span class="sd">  :param paramsFile: path (abs or relative) to the JSON file</span>
+<span class="sd">  :type paramsFile: str</span>
+<span class="sd">  :return: Drax Server configuration object to be used to initialize Drax / DraxClient</span>
+<span class="sd">  :rtype: DraxServerConfig</span>
+<span class="sd">  &quot;&quot;&quot;</span>  
+  <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">paramsFile</span><span class="p">)</span>
+  <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">DraxServerConfig</span><span class="p">(</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;draxServer&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">],</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;draxApiKey&#39;</span><span class="p">],</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;draxApiSecret&#39;</span><span class="p">],</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;draxServer&#39;</span><span class="p">][</span><span class="s1">&#39;serviceUrl&#39;</span><span class="p">],</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;draxPublicKey&#39;</span><span class="p">],</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;draxServer&#39;</span><span class="p">][</span><span class="s1">&#39;vhost&#39;</span><span class="p">],</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;draxServer&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span>
+      <span class="n">params</span><span class="p">[</span><span class="s1">&#39;nodesKeys&#39;</span><span class="p">]</span>
+      <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Drax"><a class="viewcode-back" href="../drax.html#drax.Drax">[docs]</a><span class="k">class</span> <span class="nc">Drax</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;This is a class representation of Drax platform which must be used by third part </span>
+<span class="sd">  application for accessing Drax IoT functionalities and services. </span>
+<span class="sd">  </span>
+<span class="sd">  :param params: setting parameters for Drax SDK </span>
+<span class="sd">  :type params: class:`DraxParameters`</span>
+<span class="sd">  &quot;&quot;&quot;</span>  
+  
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">DraxProjectParameters</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span> <span class="o">=</span> <span class="n">amqpDraxBroker</span><span class="o">.</span><span class="n">AmqpDraxBroker</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span> <span class="o">=</span> <span class="n">draxClient</span><span class="o">.</span><span class="n">DraxClient</span><span class="p">(</span>
+      <span class="n">params</span><span class="o">.</span><span class="n">draxServerConfig</span><span class="o">.</span><span class="n">serviceUrl</span><span class="p">,</span> 
+      <span class="n">params</span><span class="o">.</span><span class="n">projectApiKey</span><span class="p">,</span> 
+      <span class="n">params</span><span class="o">.</span><span class="n">projectApiSecret</span>
+    <span class="p">)</span>  
+     
+<div class="viewcode-block" id="Drax.start"><a class="viewcode-back" href="../drax.html#drax.Drax.start">[docs]</a>  <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Start the drax instance: it connects Drax SDK to Drax AMQP message Broker.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>   </div>
+  
+<div class="viewcode-block" id="Drax.stop"><a class="viewcode-back" href="../drax.html#drax.Drax.stop">[docs]</a>  <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Stop the drax instance: it disconnects Drax SDK from Drax AMQP message Broker.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>    </div>
+  
+<div class="viewcode-block" id="Drax.setState"><a class="viewcode-back" href="../drax.html#drax.Drax.setState">[docs]</a>  <span class="k">def</span> <span class="nf">setState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">urn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cryptographyDisabled</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This method is called by the node or the gateway, which the node is connected</span>
+<span class="sd">    to, in order to comunicate its state to Drax Cloud platform.</span>
+<span class="sd">    Source: IoT node / gateway</span>
+<span class="sd">    Comunication protocol: AMQP queue selected on a specific topic </span>
+<span class="sd">    Destination (intermediate): Drax Message Broker</span>
+<span class="sd">    Destination (final): Drax Cloud platform</span>
+<span class="sd">    This function is used by sensors.</span>
+
+<span class="sd">    :param nodeId: IoT node identifier (sender)</span>
+<span class="sd">    :type nodeId: int</span>
+<span class="sd">    :param urn: URN </span>
+<span class="sd">    :type urn: str</span>
+<span class="sd">    :param state: state to be sent to Drax cloud</span>
+<span class="sd">    :type state: dict</span>
+<span class="sd">    :param cryptographyDisabled: flag to control ECDH cryptografy on data, defaults to False</span>
+<span class="sd">    :type cryptographyDisabled: bool, optional</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span><span class="o">.</span><span class="n">setState</span><span class="p">(</span><span class="n">nodeId</span><span class="p">,</span> <span class="n">urn</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">cryptographyDisabled</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Drax.setConfiguration"><a class="viewcode-back" href="../drax.html#drax.Drax.setConfiguration">[docs]</a>  <span class="k">def</span> <span class="nf">setConfiguration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">urn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cryptographyDisabled</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This method is called by Drax Cloud platform to send a configuration (command)</span>
+<span class="sd">    to one node part of Drax Iot network.</span>
+<span class="sd">    The communication is not direct, but it uses AMQP Drax Message Broker.</span>
+<span class="sd">    Source: Drax Cloud platform</span>
+<span class="sd">    Comunication protocol: AMQP queue selected on a specific topic </span>
+<span class="sd">    Destination (intermediate): Drax Message Broker</span>
+<span class="sd">    Destination (final): IoT node</span>
+<span class="sd">    This function can be called by third part application or internal Drax module to send a configuration command to</span>
+<span class="sd">    an IoT node of the network.</span>
+
+<span class="sd">    :param nodeId: IoT node identifier (receiver)</span>
+<span class="sd">    :type nodeId: int</span>
+<span class="sd">    :param urn: URN </span>
+<span class="sd">    :type urn: str</span>
+<span class="sd">    :param configuration: configuration to be sent to the node</span>
+<span class="sd">    :type configuration: dict</span>
+<span class="sd">    :param cryptographyDisabled: flag to control ECDH cryptografy on data, defaults to False</span>
+<span class="sd">    :type cryptographyDisabled: bool, optional</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span><span class="o">.</span><span class="n">setConfiguration</span><span class="p">(</span><span class="n">nodeId</span><span class="p">,</span> <span class="n">urn</span><span class="p">,</span> <span class="n">configuration</span><span class="p">,</span> <span class="n">cryptographyDisabled</span><span class="p">)</span>    </div>
+  
+<div class="viewcode-block" id="Drax.handshake"><a class="viewcode-back" href="../drax.html#drax.Drax.handshake">[docs]</a>  <span class="k">def</span> <span class="nf">handshake</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;@TBC</span>
+
+<span class="sd">    :param node: _description_</span>
+<span class="sd">    :type node: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">handshake</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>   </div>
+  
+<div class="viewcode-block" id="Drax.addConfigurationListener"><a class="viewcode-back" href="../drax.html#drax.Drax.addConfigurationListener">[docs]</a>  <span class="k">def</span> <span class="nf">addConfigurationListener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">listeners</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Listener</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;This method is called to attach a configuration listener to an IoT node.</span>
+<span class="sd">      The listener will be listening to a specific topic on a queue of the AMQP Drax Message </span>
+<span class="sd">      Broker.</span>
+<span class="sd">      The queue is set to buffer configuration messages coming from Drax Cloud platform</span>
+<span class="sd">      or third part application and directed to the node.</span>
+<span class="sd">      It is possibile to attach more that one listener for a single topic.</span>
+<span class="sd">      </span>
+<span class="sd">      This function can be called on a device (node, i.e. sensor or gateway)</span>
+<span class="sd">      that will be waiting for configuration commands waiting on AMQP Drax Message Broker</span>
+<span class="sd">      queue coming from Drax Cloud platforma .</span>
+
+<span class="sd">      :param topic: topic to be listening to</span>
+<span class="sd">      :type topic: str</span>
+<span class="sd">      :param listeners: list of Listeners objects</span>
+<span class="sd">      :type listeners: ListenersList, [Listener]</span>
+<span class="sd">      &quot;&quot;&quot;</span>
+    
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span><span class="o">.</span><span class="n">addConfigurationListener</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">listeners</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Drax.listStates"><a class="viewcode-back" href="../drax.html#drax.Drax.listStates">[docs]</a>  <span class="k">def</span> <span class="nf">listStates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectId</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This method can be called by a third part application or internal Drax module to Drax Cloud platform </span>
+<span class="sd">    in order to get the states of a single node part of a project (selected by their IDs)</span>
+<span class="sd">    relative to a time interval set by timestamps limits expressed in millisecs.</span>
+<span class="sd">    The communication is direct, it uses an HTTPs POST request to Drax Cloud platform REST API service.</span>
+<span class="sd">    Source: Application (third-part) or internal Drax module</span>
+<span class="sd">    Comunication protocol: HTTPs </span>
+<span class="sd">    Destination (final): Drax Cloud platform (REST API service)</span>
+
+<span class="sd">    :param projectId: Project Identifier </span>
+<span class="sd">    :type projectId: str</span>
+<span class="sd">    :param nodeId: IoT node identifier</span>
+<span class="sd">    :type nodeId: int</span>
+<span class="sd">    :param fromTimeMillis: initial time (millis)</span>
+<span class="sd">    :type fromTimeMillis: int</span>
+<span class="sd">    :param toTimeMillis: final time (millis)</span>
+<span class="sd">    :type toTimeMillis: int</span>
+<span class="sd">    :return: dict of node&#39;s states in time interval</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">listStates</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Drax.listNodesStates"><a class="viewcode-back" href="../drax.html#drax.Drax.listNodesStates">[docs]</a>  <span class="k">def</span> <span class="nf">listNodesStates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectId</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nodeIds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">fromTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This method can be called by a third part application to Drax Cloud platform </span>
+<span class="sd">    in order to get the states of multiple nodes part of a project (selected by their IDs)</span>
+<span class="sd">    relative to a time interval set by timestamps limits expressed in millisecs.</span>
+<span class="sd">    The communication is direct, it uses an HTTPs POST request to Drax Cloud platform REST API service.</span>
+<span class="sd">    Source: Application (third-part) or internal Drax module</span>
+<span class="sd">    Comunication protocol: HTTPs </span>
+<span class="sd">    Destination (final): Drax Cloud platform (REST API service)</span>
+
+<span class="sd">    :param projectId: Project Identifier </span>
+<span class="sd">    :type projectId: str</span>
+<span class="sd">    :param nodeIds: list of IoT nodes&#39; identifiers</span>
+<span class="sd">    :type nodeIds: list[int]</span>
+<span class="sd">    :param fromTimeMillis: initial time (millis)</span>
+<span class="sd">    :type fromTimeMillis: int</span>
+<span class="sd">    :param toTimeMillis: final time (millis)</span>
+<span class="sd">    :type toTimeMillis: int</span>
+<span class="sd">    :return: dict of nodes&#39; states in time interval</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">listNodesStates</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">nodeIds</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">)</span></div>
+  
+<div class="viewcode-block" id="Drax.getNodeById"><a class="viewcode-back" href="../drax.html#drax.Drax.getNodeById">[docs]</a>  <span class="k">def</span> <span class="nf">getNodeById</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns node information given its code ID, making an HTTP GET Rest call to DraxCloud.</span>
+<span class="sd">        The client must have been initialized with project ApiKey and ApiSecret in request headers.</span>
+<span class="sd">        </span>
+<span class="sd">        :param nodeId: project unique code ID</span>
+<span class="sd">        :type nodeId: int</span>
+<span class="sd">        :return: node information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">getNodeById</span><span class="p">(</span><span class="n">nodeId</span><span class="p">)</span></div>
+  
+<div class="viewcode-block" id="Drax.listNodes"><a class="viewcode-back" href="../drax.html#drax.Drax.listNodes">[docs]</a>  <span class="k">def</span> <span class="nf">listNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectId</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pagingState</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns information about all nodes part of a project, making an HTTP GET Rest call to DraxCloud.</span>
+<span class="sd">        The client must have been initialized with project ApiKey and ApiSecret in request headers.</span>
+<span class="sd">        </span>
+<span class="sd">        :param projectId: project unique code ID</span>
+<span class="sd">        :type projectId: str</span>
+<span class="sd">        :return: dict of nodes information (JSON format)</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">listNodes</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">keyword</span><span class="p">,</span> <span class="n">pagingState</span><span class="p">)</span></div>
+  
+<div class="viewcode-block" id="Drax.addStateListener"><a class="viewcode-back" href="../drax.html#drax.Drax.addStateListener">[docs]</a>  <span class="k">def</span> <span class="nf">addStateListener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">listeners</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Listener</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Add a node state listener in order to get information published by nodes in a queue</span>
+<span class="sd">    defined by a specific topic on AMQP Drax Message Broker.</span>
+<span class="sd">    The queue is set to buffer state messages coming from IoT nodes and directed to Drax Cloud platform.</span>
+<span class="sd">    It is possibile to attach more that one listener for a single topic.</span>
+<span class="sd">    This function can be called from a third part application or internal Drax module </span>
+<span class="sd">    that will be waiting for stated sent by nodes.</span>
+<span class="sd">    It returns nothing; it start the receiver service.</span>
+<span class="sd">    </span>
+<span class="sd">    :param topic: Topic where the node publishes the message</span>
+<span class="sd">    :type topic: str</span>
+<span class="sd">    :param listeners: list of listeners objects waiting for node&#39;s message</span>
+<span class="sd">    :type listeners: Listener[]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span><span class="o">.</span><span class="n">addStateListener</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">listeners</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Applica S.R.L..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

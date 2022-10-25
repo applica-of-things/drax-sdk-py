@@ -4,7 +4,7 @@ Python SDK for Drax platform
 ### Installation 
 To install the package you need to run the following command:
 
-`$ pip install draxsdk`
+`$ python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps draxsdk`
 
 ### Usage 
 Import drax SDK module in your code:

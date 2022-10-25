@@ -18,6 +18,7 @@ src/draxsdk/consumer/listeners/__init__.py
 src/draxsdk/consumer/listeners/htsensor.py
 src/draxsdk/consumer/listeners/listener.py
 src/draxsdk/consumer/listeners/rele.py
+src/draxsdk/consumer/listeners/stateListener.py
 src/draxsdk/consumer/listeners/trv.py
 src/draxsdk/model/__init__.py
 src/draxsdk/model/parameters.py

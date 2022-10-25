@@ -83,7 +83,7 @@ class AmqpDraxBroker:
         
         self.channel.exchange_declare(exchange='amq.topic', exchange_type='topic', durable=True)
         self.channel.basic_publish(exchange='amq.topic',
-                      routing_key='node-sdk-development-65447.requests.states',
+                      routing_key='{projectId}.requests.states'.format(projectId=self.params.projectId),
                       body=json.dumps(stateRequest))
 
         print(" [x] Sent '", json.dumps(stateRequest), "'")
