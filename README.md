@@ -12,3 +12,17 @@ Import drax SDK module in your code:
 from draxsdk import drax
 
 ```
+
+### Generate docstring with Sphinx 
+```bash
+$ cd docs && make html
+
+```
+
+### Pypi test repository: generate and publish
+```python
+$ python3 -m build
+$ python3 -m twine upload --repository testpypi dist/*
+
+```
+
