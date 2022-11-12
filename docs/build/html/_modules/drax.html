@@ -39,7 +39,6 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../wiki.html">Drax SDK Wiki (HowTo guide)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../wiki.html#init-drax">Init Drax</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">Drax SDK Modules</a></li>
 </ul>
 
@@ -193,6 +192,28 @@
     
     <span class="bp">self</span><span class="o">.</span><span class="n">draxBroker</span><span class="o">.</span><span class="n">addConfigurationListener</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">listeners</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="Drax.listConfigurations"><a class="viewcode-back" href="../drax.html#drax.Drax.listConfigurations">[docs]</a>  <span class="k">def</span> <span class="nf">listConfigurations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectId</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fetchSize</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This method can be called by a third part application or internal Drax module to Drax Cloud platform </span>
+<span class="sd">    in order to get the configurations list of a single node part of a project (selected by their IDs)</span>
+<span class="sd">    relative to a time interval set by timestamps limits expressed in millisecs.</span>
+<span class="sd">    The communication is direct, it uses an HTTPs POST request to Drax Cloud platform REST API service.</span>
+<span class="sd">    Source: Application (third-part) or internal Drax module</span>
+<span class="sd">    Comunication protocol: HTTPs </span>
+<span class="sd">    Destination (final): Drax Cloud platform (REST API service)</span>
+
+<span class="sd">    :param projectId: Project Identifier </span>
+<span class="sd">    :type projectId: str</span>
+<span class="sd">    :param nodeId: IoT node identifier</span>
+<span class="sd">    :type nodeId: int</span>
+<span class="sd">    :param fromTimeMillis: initial time (millis)</span>
+<span class="sd">    :type fromTimeMillis: int</span>
+<span class="sd">    :param toTimeMillis: final time (millis)</span>
+<span class="sd">    :type toTimeMillis: int</span>
+<span class="sd">    :return: dict of node&#39;s configurations list in time interval</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">listConfigurations</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">,</span> <span class="n">fetchSize</span><span class="p">)</span></div>
+  
 <div class="viewcode-block" id="Drax.listStates"><a class="viewcode-back" href="../drax.html#drax.Drax.listStates">[docs]</a>  <span class="k">def</span> <span class="nf">listStates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectId</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This method can be called by a third part application or internal Drax module to Drax Cloud platform </span>
 <span class="sd">    in order to get the states of a single node part of a project (selected by their IDs)</span>

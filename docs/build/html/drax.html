@@ -41,7 +41,6 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="wiki.html">Drax SDK Wiki (HowTo guide)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wiki.html#init-drax">Init Drax</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Drax SDK Modules</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Drax module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#drax.Drax"><code class="docutils literal notranslate"><span class="pre">Drax</span></code></a><ul>
@@ -49,6 +48,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#drax.Drax.addStateListener"><code class="docutils literal notranslate"><span class="pre">Drax.addStateListener()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#drax.Drax.getNodeById"><code class="docutils literal notranslate"><span class="pre">Drax.getNodeById()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#drax.Drax.handshake"><code class="docutils literal notranslate"><span class="pre">Drax.handshake()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drax.Drax.listConfigurations"><code class="docutils literal notranslate"><span class="pre">Drax.listConfigurations()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#drax.Drax.listNodes"><code class="docutils literal notranslate"><span class="pre">Drax.listNodes()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#drax.Drax.listNodesStates"><code class="docutils literal notranslate"><span class="pre">Drax.listNodesStates()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#drax.Drax.listStates"><code class="docutils literal notranslate"><span class="pre">Drax.listStates()</span></code></a></li>
@@ -170,6 +170,34 @@ The client must have been initialized with project ApiKey and ApiSecret in reque
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>node</strong> (<em>dict</em>) – _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="drax.Drax.listConfigurations">
+<span class="sig-name descname"><span class="pre">listConfigurations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projectId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodeId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromTimeMillis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toTimeMillis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fetchSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/drax.html#Drax.listConfigurations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drax.Drax.listConfigurations" title="Permalink to this definition"></a></dt>
+<dd><p>This method can be called by a third part application or internal Drax module to Drax Cloud platform 
+in order to get the configurations list of a single node part of a project (selected by their IDs)
+relative to a time interval set by timestamps limits expressed in millisecs.
+The communication is direct, it uses an HTTPs POST request to Drax Cloud platform REST API service.
+Source: Application (third-part) or internal Drax module
+Comunication protocol: HTTPs 
+Destination (final): Drax Cloud platform (REST API service)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projectId</strong> (<em>str</em>) – Project Identifier</p></li>
+<li><p><strong>nodeId</strong> (<em>int</em>) – IoT node identifier</p></li>
+<li><p><strong>fromTimeMillis</strong> (<em>int</em>) – initial time (millis)</p></li>
+<li><p><strong>toTimeMillis</strong> (<em>int</em>) – final time (millis)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict of node’s configurations list in time interval</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>

@@ -8,7 +8,8 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../src/draxsdk'))
+sys.path.insert(0, os.path.abspath('../../src/'))
+sys.path.insert(0, os.path.abspath('../../src/draxsdk/'))
 
 project = 'Drax SDK (Software Development Toolkit) Python'
 copyright = '2022, Applica S.R.L.'

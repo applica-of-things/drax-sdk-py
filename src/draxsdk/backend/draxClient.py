@@ -62,7 +62,26 @@ class DraxClient:
             for nodeId in nodeIds:
                 print("nodeId: " + str(nodeId))
                 response[nodeId] = self.listStates(projectId, nodeId, fromTimeMillis, toTimeMillis)
-            return json.dumps(response)
+            return response
+        except RequestException:
+            raise RequestException()
+        
+    def listConfigurations(self, projectId: str, nodeId: int, fromTimeMillis: int, toTimeMillis: int, fetchSize: int):
+        try:
+            params = {"projectId": projectId}
+            if fetchSize is not None:
+                params["fetchSize"] = fetchSize
+            if fromTimeMillis is not None:
+                params["from"] = fromTimeMillis
+            if toTimeMillis is not None:
+                params["to"] = toTimeMillis
+            response = requests.get(
+                self.serviceUrl + '/nodes/' + str(nodeId) + "/configurations", 
+                params=params, 
+                headers=self._get_headers()
+            )
+            response.raise_for_status()
+            return response.json()
         except RequestException:
             raise RequestException()
     

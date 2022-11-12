@@ -123,6 +123,28 @@ class Drax:
     
     self.draxBroker.addConfigurationListener(topic, listeners)
 
+  def listConfigurations(self, projectId: str, nodeId: int, fromTimeMillis: int=None, toTimeMillis: int=None, fetchSize: int=None)->dict:
+    """This method can be called by a third part application or internal Drax module to Drax Cloud platform 
+    in order to get the configurations list of a single node part of a project (selected by their IDs)
+    relative to a time interval set by timestamps limits expressed in millisecs.
+    The communication is direct, it uses an HTTPs POST request to Drax Cloud platform REST API service.
+    Source: Application (third-part) or internal Drax module
+    Comunication protocol: HTTPs 
+    Destination (final): Drax Cloud platform (REST API service)
+
+    :param projectId: Project Identifier 
+    :type projectId: str
+    :param nodeId: IoT node identifier
+    :type nodeId: int
+    :param fromTimeMillis: initial time (millis)
+    :type fromTimeMillis: int
+    :param toTimeMillis: final time (millis)
+    :type toTimeMillis: int
+    :return: dict of node's configurations list in time interval
+    :rtype: dict
+    """
+    return self.draxClient.listConfigurations(projectId, nodeId, fromTimeMillis, toTimeMillis, fetchSize)
+  
   def listStates(self, projectId: str, nodeId: int, fromTimeMillis: int, toTimeMillis: int)->dict:
     """This method can be called by a third part application or internal Drax module to Drax Cloud platform 
     in order to get the states of a single node part of a project (selected by their IDs)

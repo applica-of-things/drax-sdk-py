@@ -53,7 +53,7 @@ class TestCaseClient(unittest.TestCase):
             _drax.start()
             
             # list states from one or multiple nodes
-            nodesIds = [3950, 3951]
+            nodesIds = [4298, 4295]
             dt_obj = datetime.datetime.strptime('12.8.2022 14:30:42,76', '%d.%m.%Y %H:%M:%S,%f')
             fromTimeMillis = int(dt_obj.timestamp() * 1000)
             dt_obj = datetime.datetime.strptime('12.8.2022 14:40:42,76', '%d.%m.%Y %H:%M:%S,%f')
@@ -138,8 +138,7 @@ class TestCaseClient(unittest.TestCase):
                 'timestamp':'1662657117864'}
         self._setState("drax-simu-project-82327", 4348, state)
         assert True
-        
-            
+                   
     def test_addConfigurationListener(self):
         # get project Information at first
         projectId = "node-sdk-development-65447"
@@ -250,6 +249,43 @@ class TestCaseClient(unittest.TestCase):
             print(ex)
             assert False
 
+    def test_listConfigurations(self):
+        # get project Information at first
+        projectId = "trv-18443"
+        configFilePath = os.path.dirname(os.path.abspath(__file__)) + '/config.json'
+        draxServerConfig = drax.loadConfigFromFile(configFilePath)
+        client = draxClient.DraxClient(
+            draxServerConfig.serviceUrl, 
+            draxServerConfig.draxApiKey, 
+            draxServerConfig.draxApiSecret
+            ) 
+        try:      
+            projectInfo = client.getProjectById(projectId)
+            #projectInfo = json.loads(projectJson)
+            # initialize Drax with project parameters
+            draxProjectParams = DraxProjectParameters(
+                projectId, projectInfo['apiKey'], projectInfo['apiSecret'], 
+                draxServerConfig
+                )
+            _drax = drax.Drax(draxProjectParams)
+            _drax.start()
+            
+            # list states from one or multiple nodes
+            nodesId = 4295
+            dt_obj = datetime.datetime.strptime('1.11.2020 06:00:00,00', '%d.%m.%Y %H:%M:%S,%f')
+            fromTimeMillis = int(dt_obj.timestamp() * 1000)
+            dt_obj = datetime.datetime.strptime('1.11.2022 07:00:00,00', '%d.%m.%Y %H:%M:%S,%f')
+            toTimeMillis = int(dt_obj.timestamp() * 1000)
+            #toTimeMillis = int(time.time()*1000) #to now
+            response = _drax.listConfigurations(projectId, nodesId, None, None)
+            print(response)
+    
+            _drax.stop()
+            assert True
+        except Exception as ex:
+            print(ex)
+            assert False
+
 if __name__ == '__main__':
     # all tests
     testSuite = unittest.TestSuite()
@@ -260,4 +296,5 @@ if __name__ == '__main__':
     testSuite.addTest(TestCaseClient("test_addConfigurationListener"))
     testSuite.addTest(TestCaseClient("test_listNodes"))
     testSuite.addTest(TestCaseClient("test_addStateListener"))
+    testSuite.addTest(TestCaseClient("test_listConfigurations"))
     unittest.TextTestRunner().run(testSuite)

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: draxsdk
-Version: 1.0.16
+Version: 1.0.18
 Summary: Python SDK for Drax platform
 Home-page: https://github.com/applica-of-things/drax-sdk-py
 Author: Applica S.R.L.
@@ -30,7 +30,14 @@ from draxsdk import drax
 
 ### Generate docstring with Sphinx 
 ```bash
-drax-sd-py/docs$ make html
+$ cd docs && make html
+
+```
+
+### Pypi test repository: generate and publish
+```python
+$ python3 -m build
+$ python3 -m twine upload --repository testpypi dist/*
 
 ```
 
