@@ -57,12 +57,16 @@ class DraxClient:
         
     def listNodesStates(self, projectId: str, nodeIds: list[int], fromTimeMillis: int, toTimeMillis: int):
         try:
-            response = dict()
-            print("nodeIds: " + str(nodeIds))
-            for nodeId in nodeIds:
-                print("nodeId: " + str(nodeId))
-                response[nodeId] = self.listStates(projectId, nodeId, fromTimeMillis, toTimeMillis)
-            return response
+            params = {"projectId": projectId, "from": fromTimeMillis, "to": toTimeMillis}
+            nodeIds_json = {"nodeIds": nodeIds}
+            response = requests.post(
+                self.serviceUrl + '/nodes/states', 
+                params=params, 
+                headers=self._get_headers(),
+                json=nodeIds_json
+            )
+            response.raise_for_status()
+            return response.json()
         except RequestException:
             raise RequestException()
         

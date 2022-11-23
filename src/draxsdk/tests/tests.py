@@ -2,9 +2,13 @@ import os, sys
 import unittest
 import datetime, time 
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../..")
+try:
+    from draxsdk import drax
+except:
+    print("using local draxsdk source...")
+    sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../..")
+    from draxsdk import drax
 
-from draxsdk import drax
 from draxsdk.backend import draxClient
 from draxsdk.consumer.listeners.htsensor import HTSensor
 from draxsdk.consumer.listeners.rele import Rele
@@ -54,14 +58,12 @@ class TestCaseClient(unittest.TestCase):
             
             # list states from one or multiple nodes
             nodesIds = [4298, 4295]
-            dt_obj = datetime.datetime.strptime('12.8.2022 14:30:42,76', '%d.%m.%Y %H:%M:%S,%f')
+            dt_obj = datetime.datetime.strptime('12.11.2022 14:30:42,76', '%d.%m.%Y %H:%M:%S,%f')
             fromTimeMillis = int(dt_obj.timestamp() * 1000)
-            dt_obj = datetime.datetime.strptime('12.8.2022 14:40:42,76', '%d.%m.%Y %H:%M:%S,%f')
+            dt_obj = datetime.datetime.strptime('15.11.2022 14:40:42,76', '%d.%m.%Y %H:%M:%S,%f')
             toTimeMillis = int(dt_obj.timestamp() * 1000)
-            #toTimeMillis = int(time.time()*1000) #to now
             statesResponse = _drax.listNodesStates(projectId, nodesIds, fromTimeMillis, toTimeMillis)
-            print(statesResponse)
-    
+
             _drax.stop()
             assert True
         except Exception as ex:

@@ -167,7 +167,7 @@ class Drax:
     """
     return self.draxClient.listStates(projectId, nodeId, fromTimeMillis, toTimeMillis)
 
-  def listNodesStates(self, projectId: str, nodeIds: list[int], fromTimeMillis: int, toTimeMillis: int):
+  def listNodesStates(self, projectId: str, nodeIds: list[int], fromTimeMillis: int, toTimeMillis: int)->dict:
     """This method can be called by a third part application to Drax Cloud platform 
     in order to get the states of multiple nodes part of a project (selected by their IDs)
     relative to a time interval set by timestamps limits expressed in millisecs.
@@ -184,11 +184,11 @@ class Drax:
     :type fromTimeMillis: int
     :param toTimeMillis: final time (millis)
     :type toTimeMillis: int
-    :return: dict of nodes' states in time interval
+    :return: r['results']: flat list of nodes states in time interval
     :rtype: dict
     """
     return self.draxClient.listNodesStates(projectId, nodeIds, fromTimeMillis, toTimeMillis)
-  
+    
   def getNodeById(self, nodeId: int)->dict:
     """Returns node information given its code ID, making an HTTP GET Rest call to DraxCloud.
         The client must have been initialized with project ApiKey and ApiSecret in request headers.

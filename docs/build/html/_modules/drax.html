@@ -236,7 +236,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">listStates</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Drax.listNodesStates"><a class="viewcode-back" href="../drax.html#drax.Drax.listNodesStates">[docs]</a>  <span class="k">def</span> <span class="nf">listNodesStates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectId</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nodeIds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">fromTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="Drax.listNodesStates"><a class="viewcode-back" href="../drax.html#drax.Drax.listNodesStates">[docs]</a>  <span class="k">def</span> <span class="nf">listNodesStates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectId</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nodeIds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">fromTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This method can be called by a third part application to Drax Cloud platform </span>
 <span class="sd">    in order to get the states of multiple nodes part of a project (selected by their IDs)</span>
 <span class="sd">    relative to a time interval set by timestamps limits expressed in millisecs.</span>
@@ -253,11 +253,11 @@
 <span class="sd">    :type fromTimeMillis: int</span>
 <span class="sd">    :param toTimeMillis: final time (millis)</span>
 <span class="sd">    :type toTimeMillis: int</span>
-<span class="sd">    :return: dict of nodes&#39; states in time interval</span>
+<span class="sd">    :return: r[&#39;results&#39;]: flat list of nodes states in time interval</span>
 <span class="sd">    :rtype: dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draxClient</span><span class="o">.</span><span class="n">listNodesStates</span><span class="p">(</span><span class="n">projectId</span><span class="p">,</span> <span class="n">nodeIds</span><span class="p">,</span> <span class="n">fromTimeMillis</span><span class="p">,</span> <span class="n">toTimeMillis</span><span class="p">)</span></div>
-  
+    
 <div class="viewcode-block" id="Drax.getNodeById"><a class="viewcode-back" href="../drax.html#drax.Drax.getNodeById">[docs]</a>  <span class="k">def</span> <span class="nf">getNodeById</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns node information given its code ID, making an HTTP GET Rest call to DraxCloud.</span>
 <span class="sd">        The client must have been initialized with project ApiKey and ApiSecret in request headers.</span>
