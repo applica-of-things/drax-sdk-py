@@ -60,7 +60,7 @@ class DraxClient:
             params = {"projectId": projectId, "from": fromTimeMillis, "to": toTimeMillis}
             nodeIds_json = {"nodeIds": nodeIds}
             response = requests.post(
-                self.serviceUrl + '/nodes/states', 
+                self.serviceUrl + '/states/find-by-node-ids', 
                 params=params, 
                 headers=self._get_headers(),
                 json=nodeIds_json

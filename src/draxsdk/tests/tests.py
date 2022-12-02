@@ -58,6 +58,7 @@ class TestCaseClient(unittest.TestCase):
             
             # list states from one or multiple nodes
             nodesIds = [4298, 4295]
+            nodesIds = [1174]
             dt_obj = datetime.datetime.strptime('12.11.2022 14:30:42,76', '%d.%m.%Y %H:%M:%S,%f')
             fromTimeMillis = int(dt_obj.timestamp() * 1000)
             dt_obj = datetime.datetime.strptime('15.11.2022 14:40:42,76', '%d.%m.%Y %H:%M:%S,%f')
