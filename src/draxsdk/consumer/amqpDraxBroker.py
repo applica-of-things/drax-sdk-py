@@ -79,14 +79,11 @@ class AmqpDraxBroker:
             signed_data = crypto.crypto_sign(privateKey_uint8, publicKey_uint8, data_uint8)
 
             stateRequest['state'] = signed_data.tolist() # @TODO: check draxcloud expected format
-        print("State request to publish: ", stateRequest)
         
         self.channel.exchange_declare(exchange='amq.topic', exchange_type='topic', durable=True)
         self.channel.basic_publish(exchange='amq.topic',
                       routing_key='{projectId}.requests.states'.format(projectId=self.params.projectId),
                       body=json.dumps(stateRequest))
-
-        print(" [x] Sent '", json.dumps(stateRequest), "'")
 
     def _decrypt(self, body):
         body_json = json.loads(body)
@@ -115,14 +112,11 @@ class AmqpDraxBroker:
         }
 
         topic = self.projectId + ".requests.configurations"
-        print("State request to publish: ", configurationRequest)
         
         self.channel.exchange_declare(exchange='amq.topic', exchange_type='topic', durable=True)
         self.channel.basic_publish(exchange='amq.topic',
             routing_key=self.projectId+'.requests.configurations',
             body=json.dumps(configurationRequest))
-
-        print(" [x] Sent '", json.dumps(configurationRequest), "'")
 
     def addConfigurationListener(self, topic, listeners = []):
         receiverServiceThread = ReceiverService(self.channel, self.projectId, topic, self.ks, listeners, decryptionEnable=True)
